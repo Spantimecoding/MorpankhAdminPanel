@@ -1,0 +1,134 @@
+body,html{
+    margin: 0;
+    padding:0;
+    background-color: var(--clr-bg-website);
+}
+.add-form{
+    display: flex;
+    flex-direction: column;
+    margin-left:var(--sidebar-width);
+    margin-top:var(--topbar-height);
+    height: 100vh;
+    padding: 1rem;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    padding: 0rem var(--space-l);
+    background-color: var(--clr-bg-card);
+    border-radius: var(--rad-m);
+    align-items: center;
+    gap: 3px;
+}
+.section{
+    width: 100%;
+}
+.input-row{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+}
+.form-item{
+    padding: var(--space-xl);
+    width: 50%;
+}
+label{
+    font-family: var(--font-body);
+    font-size: var(--space-m);
+    color: var(--clr-txt-muted);
+    font-weight: bold;
+    display: block;
+    margin-bottom: var(--space-xs);
+}
+input{
+    appearance: none;
+    padding: var(--space-m);
+    font-family: var(--font-head);
+    font-weight: 400;
+    background-color: var(--clr-bg-subcard);
+    border: 1px solid var(--clr-border-light);
+    box-shadow: var(--shadow-sm);
+    border-radius: 10px;
+    width: 90%;
+}
+input:hover,select:hover,textarea:hover{
+    border: 1px solid var(--clr-border-heavy);
+}
+input:focus,select:focus,textarea:focus{
+    outline: none;
+    background-color: white;
+    border: 1px solid var(--clr-border-heavy);
+}
+select{
+    appearance: none;
+    font-family: var(--font-head);
+    padding: var(--space-m);
+    background-color: var(--clr-bg-subcard);
+    border-radius: 10px;
+    border: 1px solid var(--clr-border-light);
+    width: 100%;
+    color: var(--clr-txt-head);
+    box-shadow: var(--shadow-md);
+}
+.header{
+    font-family: var(--font-mainHead);
+    font-size: var(--space-3xl);
+    margin: var(--space-s) 0rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: var(--clr-txt-body);
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid var(--clr-border-medium);
+    padding-top: var(--space-xxl);
+}
+#first-header{
+    border: none;
+    margin-bottom: var(--space-s);
+}
+#description{
+    width: 100%;
+    
+}
+textarea{
+    min-height: 6rem;
+    max-height: 13rem;
+    min-width: 100%;
+    max-width: 100%;
+    background-color: var(--clr-bg-subcard);
+    padding: var(--space-s);
+    font-family: var(--font-head);
+    border-radius: 10px;
+    border: 1px solid var(--clr-border-light);
+    box-shadow: var(--shadow-md);
+}
+.section-sarees,.section-kurtas,.section-wrap,.section-jewellary,.section-blouse{
+    width: 100%;
+    border: none;
+}
+.form-button{
+    padding: var(--space-m) var(--space-l);
+    margin-top: var(--space-3xl);
+    margin-bottom: var(--space-4xl);
+    border-radius: var(--rad-s);
+    border: none;
+    font-family:var(--font-head);
+    font-size: var(--space-xl);
+    background-color: var(--clr-action);
+    color: var(--clr-txt-inv);
+    transition: 0.5s;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    width: 20%;
+}
+.form-button:hover{
+    border-radius: 10px;
+    transform: translateY(-3px);
+}
+.icon-plus{
+    margin-right: var(--space-xxs);
+    position: relative;
+    top: 3px;
+}

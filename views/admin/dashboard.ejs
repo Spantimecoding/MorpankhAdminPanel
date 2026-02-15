@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Common links (CSS, fonts, icons, etc.) -->
+    <%- include("../partials/links") %>
+
+    <!-- Dashboard-specific styles -->
+    <link href="css/dashboard.css" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <!-- Store current page display name in localStorage -->
+    <script>
+        localStorage.setItem("display", "<%= display %>");
+        console.log(localStorage.getItem("display"));
+    </script>
+
+    <!-- Admin navigation bar -->
+    <%- include("../partials/adminNav") %>
+
+    <!-- Main dashboard layout wrapper -->
+    <div class="dashboard-layout">
+        <%function roundTo2(num) {%>
+            <%return Math.round((num+Number.EPSILON)*100)/100;%>
+    <%}%>
+        <div class="info-row">
+            <div class="card-big">
+                <div class="card-big-txt">
+                    <div class="card-big-head">Total Orders</div>
+                    <div class="card-big-val"><%=dashData.brandOrders.totalOrders%></div>
+                </div>
+                <i data-lucide="book-marked" class="card-big-icon"></i> 
+
+            </div>
+            <div class="card-big">
+                <div class="card-big-txt">
+                    <div class="card-big-head">Total Stock</div>
+                    <div class="card-big-val"><%=dashData.brandStock.inStock%></div>
+                </div>
+                <i data-lucide="shirt" class="card-big-icon"></i> 
+
+            </div>
+            <a class="clickable" href="/admin/products?page=1&search=stk-0">
+                <div class="card-big"style=" background-color: var(--alert-danger-bg);">
+                    <div class="card-big-txt">
+                        <div class="card-big-head">Out of Stock</div>
+                        <div class="card-big-val"><%=dashData.brandStock.outStock%></div>
+                    </div>
+                    <i data-lucide="package-x" class="card-big-icon"></i> 
+
+            </div>
+
+            </a>
+        </div>
+        <div class="info-row">
+            <div class="info-row-colored">
+                <div class="info-row-header">
+                    Sales Performence
+                </div>
+                <div class="info-row">
+                        <div class="card-big"style=" background-color: var(--alert-success-bg);">
+                        <div class="card-big-txt">
+                            <div class="card-big-head">Revenue Today</div>
+                            <div class="card-big-val"><i data-lucide="indian-rupee" class="money-icon"></i><%=roundTo2(dashData.brandRevenue.revenueToday)%></div>
+                        </div>
+                        <i data-lucide="dollar-sign" class="card-big-icon"></i> 
+
+                    </div>
+                    <div class="card-big"style=" background-color: var(--alert-success-bg);">
+                        <div class="card-big-txt">
+                            <div class="card-big-head">Revenue Month</div>
+                            <div class="card-big-val"><i data-lucide="indian-rupee" class="money-icon"></i><%=roundTo2(dashData.brandRevenue.revenueMonth)%></div>
+                        </div>
+                        <i data-lucide="shirt" class="card-big-icon"></i> 
+
+                    </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="card-big">
+                            <div class="card-big-txt">
+                                <div class="card-big-head">Walk In Sale Today</div>
+                                <div class="card-big-val" style="font-size: var(--space-l);"><%=dashData.brandOrders.ordersInStoreToday%></div>
+                            </div>
+                            <i data-lucide="shopping-cart" class="card-big-icon"></i> 
+
+                        </div>
+                        <div class="card-big">
+                            <div class="card-big-txt">
+                                <div class="card-big-head">Orders Delivered Today</div>
+                                <div class="card-big-val"style="font-size: var(--space-l);"><%=dashData.brandOrders.ordersDeliveredToday%></div>
+                            </div>
+                            <i data-lucide="shopping-cart" class="card-big-icon"></i> 
+
+                        </div>  
+
+                    </div>
+                    <div class="info-row">
+                        <div class="card-big">
+                            <div class="card-big-txt">
+                                <div class="card-big-head">Online Sale Rate</div>
+                                <div class="card-big-val">0</div>
+                            </div>
+                            <i data-lucide="percent" class="card-big-icon"></i> 
+
+                    </div>
+                    <div class="card-big">
+                            <div class="card-big-txt">
+                                <div class="card-big-head">Growth rate</div>
+                                <div class="card-big-val">0</div>
+                            </div>
+                            <i data-lucide="chart-area" class="card-big-icon"></i> 
+
+                    </div>
+                    </div>
+
+            </div>
+            <div class="info-col-colored" style="width: 30%;">
+                <div class="info-row-header">
+                    Order Status
+                </div>
+                 <a href="/admin/orders?page=1&search=osts-accepted" class="clickable">
+                    <div class="card-big"style=" background-color: var(--alert-info-bg);">
+                            <div class="card-big-txt">
+                                <div class="card-big-head">Accepted</div>
+                                <div class="card-big-val"><%=dashData.brandOrders.ordersAccepted%></div>
+                            </div>
+                            <i data-lucide="handshake" class="card-big-icon"></i> 
+
+                </div>
+                        
+                    </a>
+                    <a href="/admin/orders?page=1&search=osts-packaged" class="clickable">
+                          <div class="card-big"style=" background-color: var(--alert-warning-bg);">
+                            <div class="card-big-txt">
+                                <div class="card-big-head">Packaged</div>
+                                <div class="card-big-val"><%=dashData.brandOrders.ordersPackaged%></div>
+                            </div>
+                            <i data-lucide="package" class="card-big-icon"></i> 
+
+                </div>
+
+                    </a>
+                    <a  href="/admin/orders?page=1&search=osts-dispatched" class="clickable">
+                         <div class="card-big"style=" background-color: var(--alert-warning-bg);">
+                            <div class="card-big-txt">
+                                <div class="card-big-head">Dispatched</div>
+                                <div class="card-big-val"><%=dashData.brandOrders.ordersDispatched%></div>
+                            </div>
+                            <i data-lucide="van" class="card-big-icon"></i> 
+
+                    </div>
+
+                    </a>
+            
+            </div>
+            
+
+        </div>
+        <div class="info-row">
+
+        <div class="info-row-colored">
+            <div class="info-row-header">Payment Status</div>
+            <div class="info-row">
+                 <a  href="/admin/orders?page=1&search=psts-semiPaid" class="clickable">
+                         <div class="card-big" style="width: 87.9%;background-color: var(--alert-warning-bg);">
+                            <div class="card-big-txt">
+                                <div class="card-big-head">Semi Paid</div>
+                                <div class="card-big-val"><%=dashData.brandRevenue.ordersSemiPay%></div>
+                            </div>
+                            <i data-lucide="hand-coins" class="card-big-icon"></i> 
+
+                    </div>
+
+                    </a>
+                     <a  href="/admin/orders?page=1&search=psts-payLater" class="clickable">
+                         <div class="card-big"style="width: 87.9%; background-color: var(--alert-danger-bg);">
+                            <div class="card-big-txt">
+                                <div class="card-big-head">Pay Later</div>
+                                <div class="card-big-val"><%=dashData.brandRevenue.ordersPayLater%></div>
+                            </div>
+                            <i data-lucide="calendar-clock" class="card-big-icon"></i> 
+
+                    </div>
+
+                    </a>
+                    
+            </div>
+            <div class="info-row">
+                <div class="card-big"style="width: 43%; background-color: var(--alert-warning-bg);">
+                            <div class="card-big-txt">
+                                <div class="card-big-head">Outstanding Amount</div>
+                                <div class="card-big-val" style="font-size: var(--space-xxl);"><i data-lucide="indian-rupee" class="money-icon"></i><%=roundTo2(dashData.brandRevenue.revenueOutstanding)%></div>
+                            </div>
+                            <i data-lucide="dollar-sign" class="card-big-icon"></i> 
+
+                    </div>
+            </div>
+
+        </div>
+        <div class="info-col-colored"style="width: 30%;">
+            <div class="info-row-header">
+                GST Split
+            </div>
+            <div class="card-big">
+                            <div class="card-big-txt">
+                                <div class="card-big-head">Total</div>
+                                <div class="card-big-val"><i data-lucide="indian-rupee" class="money-icon"></i> <%=roundTo2(dashData.brandRevenue.gstToday)%></div>
+                            </div>
+                            <i data-lucide="dollar-sign" class="card-big-icon"></i> 
+
+                </div>
+                <div class="info-row">
+                      <div class="card-big">
+                            <div class="card-big-txt">
+                                <div class="card-big-head">CGST/SGST</div>
+                                <div class="card-big-val" style="font-size: var(--space-l);"><i data-lucide="indian-rupee" class="money-icon"></i> <%=roundTo2(dashData.brandRevenue.cgstToday)%></div>
+                            </div> 
+
+                </div>
+                 <div class="card-big">
+                            <div class="card-big-txt">
+                                <div class="card-big-head">IGST</div>
+                                <div class="card-big-val"><i data-lucide="indian-rupee" class="money-icon"></i> <%=roundTo2(dashData.brandRevenue.igstToday)%></div>
+                            </div> 
+
+                </div>
+
+                </div>
+
+
+
+        </div>
+        </div>
+
+    </div>
+
+    <!-- Dashboard JS -->
+    <script src="js/dashboard.js"></script>
+
+    <!-- Lucide icons init -->
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+</html>

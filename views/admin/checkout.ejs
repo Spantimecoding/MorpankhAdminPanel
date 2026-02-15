@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../partials/links") %>
+
+    <!-- Dashboard-specific styles -->
+    <link href="/css/checkout.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <!-- Store current page display name in localStorage -->
+    <script>
+        localStorage.setItem("display", "<%= display %>");
+        console.log(localStorage.getItem("display"));
+    </script>
+    <!-- Admin navigation bar -->
+    <%- include("../partials/adminNav") %>
+    <div class="checkout-layout">
+        <div class="bag-and-add">
+            <div class="product-add">
+                <label for="search" id="search"><i data-lucide="scan-line" class="search-icon"></i></label>
+                <input type="text" id="search" class="add" placeholder="Scan Barcode / Enter ID" autofocus>
+            </div>
+            <div class="bag-display">
+                <div class="header"><i data-lucide="shopping-cart" class="checkout-icon"></i>SHOPPING CART</div>
+
+            </div>
+
+        </div>
+        <div class="order-info">
+            <div class="header" id="order-summary" style="border-bottom: 1px solid var(--clr-border-light); padding-bottom: var(--space-l); font-size: var(--space-l); cursor: pointer;"><i data-lucide="notebook-text" class="checkout-icon"></i>ORDER SUMMARY</div>
+            <div class="order-disection"></div>
+            <div class="order-info-item">
+                <div class="item-head">Gross Sub-Total</div>
+                <div class="item-val" id="sub-total">₹ 0</div>
+            </div>
+            <div class="order-info-item">
+                <div class="item-head">Item Discount</div>
+                <div class="item-val" id="discount-show-item">- ₹ 0</div>
+            </div>
+            <div class="order-info-item">
+                <div class="item-head">Order Discount</div>
+                <div class="item-val" id="discount-show-order">- ₹ 0</div>
+            </div>
+            <div class="order-info-item">
+                <div class="item-head">Taxable Value</div>
+                <div class="item-val" id="taxable-total">₹ 0</div>
+            </div>
+            <div class="order-info-item">
+                <div class="item-head">GST</div>
+                <div class="item-val" id="gst-total">+ ₹ 0</div>
+            </div>
+            <div class="order-info-item" style=" border-top: 1px solid var(--clr-border-light);">
+                <div class="item-head" style="font-size: var(--space-l);padding: var(--space-m) 0rem;">Total Payable</div>
+                <div class="item-val" style="margin-top:var(--space-m); font-size: var(--space-l);" id="final_total">₹ 0</div>
+            </div>
+            <div class="order-details">
+                <div class="input-box">
+                        <label for="payment" class="item-info-txt">Payment Method</label>
+                        <select id="payment" name="paymentMethod" class="item-info-select">
+                            <option value="">Select</option>
+                            <option value="cash">Cash</option>
+                            <option value="card">Card</option>
+                            <option value="upi">Upi</option>
+                        </select>
+                </div>
+                <div class="input-box">
+                        <label for="paymentStatus" class="item-info-txt">Payment Status</label>
+                        <select id="paymentStatus" name="paymentStatus" class="item-info-select">
+                            <option value="">Select</option>
+                            <option value="paid">Paid</option>
+                            <option value="pending">Pending</option>
+                            <option value="semiPaid">Semi-Paid</option>
+                            <option value="payLater">Pay-Later</option>
+                        </select>
+                </div>
+                <div class="input-box">
+                        <label for="discountType" class="item-info-txt"> Discount Type</label>
+                        <select id="discountType" name="discountType" class="item-info-select">
+                            <option value="none">None</option>
+                            <option value="flat">Flat ₹</option>
+                            <option value="percent">Percent %</option>
+                        </select>
+                </div>
+                <div class="input-box">
+                        <label for="discountTotal" class="item-info-txt">Order Discount</label>
+                        <input type="number" id="discountTotal" name="discountTotal" class="item-info-input" style="background-color: white;" placeholder="Flat ₹ / Percent %" disabled>
+                </div>
+                <div class="input-box">
+                        <label for="customerNumber" class="item-info-txt"> Customer Mobile</label>
+                        <input type="number" id="customerMobile" name="customerMobile" class="item-info-input" style="background-color: white;" placeholder="Enter Customer Mobile N.o" maxlength="10" minlength="1">
+                </div>
+                <div class="input-box">
+                        <label for="customerName" class="item-info-txt"> Customer Name</label>
+                        <input type="text" id="customerName" name="customerName" class="item-info-input" style="background-color: white;" placeholder="Enter Customer Name">
+                </div>
+                <div class="input-box">
+                        <label for="orderType" class="item-info-txt"> Order Type</label>
+                        <select id="orderType" name="orderType" class="item-info-select">
+                            <option value="">Select</option>
+                            <option value="inStore">In Store</option>
+                            <option value="delivery">Delivery</option>
+                        </select>
+                </div>
+                
+            </div>
+                    <button class="purchase"><i data-lucide="package-check" class="checkout-icon"></i>Cofirmation Page</button>
+        </div>
+    </div>
+
+     <script>
+        lucide.createIcons();
+    </script>
+    
+    <script>
+        console.log("hello")
+        window.dataset = <%- JSON.stringify(data) %>;
+        window.tax_data = <%- JSON.stringify(tax_data) %>;
+        window.invoice_data = <%- JSON.stringify(invoice_data) %>;
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/number-to-words@1.2.4"></script>
+    <script src="/js/checkout.js"></script>
+
+    
+</body>
+</html>

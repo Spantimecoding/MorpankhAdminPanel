@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include("../partials/links") %>
+<link href="/css/bill.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>
+        <script>
+                localStorage.setItem("display","<%=display%>")
+                console.log(localStorage.getItem("display"))
+        </script>
+        <script>
+            function roundTo2(num) {
+            return Math.round((num + Number.EPSILON) * 100) / 100;
+            }
+        </script>
+        <%- include("../partials/adminNav") %>
+        <img src="https://res.cloudinary.com/dt5ceiwwh/image/upload/v1769714452/737b34c0-1292-43d7-82a5-f0193a08e26b.png" class="watermark">
+        <div class="bill-layout">
+            <div class="invoice">
+                 <table class="header">
+                    <tr>
+                    <td class="company">
+                        <h2>Morpankh Dezine</h2>
+                        <p class = "text-para" style="vertical-align: bottom;">
+                        133B, Pocket A, DDA Flats<br> Sukhdev Vihar New Delhi - 110019<br>
+                        <b>GSTIN: </b>07ABEFM9278P1ZB<br>
+                        <b>PAN: </b>ABEFM9278P<br>
+                        <b>UDYAM: </b>UDYAM-DL-09-0032639<br>
+                        <b>State Name: </b>Delhi <b style="margin-left: var(--space-s);">Code: </b>07
+
+                        </p>
+                    </td>
+                    <td class="invoice-meta">
+                        <h3>TAX INVOICE</h3>
+                        <p class = "text-para" >
+                        <b>Invoice No: </b><%=orderData.invoice_number%><br>
+                        <b>Invoice Date: </b><%=orderData.orderDate%><br>
+                        <b>Order Type: </b><%=orderData.order_type%><br>
+                        <b>Email: </b>morpankhdezine@gmail.com
+                        </p>
+                    </td>
+                    </tr>
+                </table>
+                <table class="addresses">
+                    <tr>
+                        <td class="bill-to">
+                            <h2>Bill To</h2>
+                            <p class = "text-para" >
+                                <b style="font-size: var(--space-l);"><%=orderData.customer_name%></b><br>
+                                <b style="line-height: 26px;">PHONE: +91 </b><%=orderData.customer_num%><br>
+                            </p>
+                        </td>
+                        <td class="ship-to">
+                            <h2>Ship To</h2>
+                            <%if(orderData.order_type == "inStore"){%>
+                                <p>
+                                    <b>No Shipping</b>
+
+                                </p>
+                                <%}else{%>
+                                <p class = "text-para" >
+                                    <b style="font-size: var(--space-l);"><%=orderData.delivery_attributes.receiver_name%></b><br>
+                                    <b>PHONE: +91 </b><%=orderData.delivery_attributes.receiver_number%><br>
+                                    <%if((orderData.delivery_attributes.address).length != 0){%>
+                                        <%=orderData.delivery_attributes.address%>
+                                        <%}%>
+                                </p>
+
+                                    <%}%>
+
+                        </td>
+                    </tr>
+
+                </table>
+                <table class="items">
+                    <%function roundTo2(num) {%>
+                    <%return Math.round((num + Number.EPSILON) * 100) / 100;%>
+                    <%}%>
+                    <thead>
+                    <tr>
+                        <th style="width: 5%;">S.No</th>
+                        <th style="width: 38%;">Product Name</th>
+                        <th style="width: 7%;">HSN</th>
+                        <th style="width: 7%;">Qty</th>
+                        <th style="width: 9.8%;">Price</th>
+                        <th style ="width:7%">Dsc₹</th>
+                        <th style="width: 8%;">GST%</th>
+                        <th style="width: 17.1%;">Final Amount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <%let s_no = 1%>
+                        <%let total_qty = 0%>
+                        <%for(let x of orderData.products_info){%>
+                            <tr>
+                                <td><%=s_no%></td>
+                                <td><%=x.name%></td>
+                                <td><%=x.hsnCode%></td>
+                                <td><%=x.quantity%></td>
+                                <td><%=roundTo2(x.price)%></td>
+                                <td><%=roundTo2(x.order_level_discount + x.discount_amount)%></td>
+                                <td><%=roundTo2(x.gst_rate)%></td>
+                                <td><%=roundTo2(x.discounted_taxed_line_total)%></td>
+                            </tr>
+                            <%s_no += 1%>
+                            <%total_qty += x.quantity%>
+                            <%}%>
+                            <tr style="border-top: 1px solid black; border-bottom: 1px solid black;">
+                            <td></td>
+                            <td><b>Total</b></td>
+                            <td></td>
+                            <td style="font-weight: bold;"><%=total_qty%></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td style="font-weight: bold; font-size: var(--space-l);">₹ <%=roundTo2(orderData.final_total)%></td>
+                            </tr>
+                    </tbody>
+                </table>
+                <table style="width: 100%; table-layout: fixed;">
+                    <td class="amount-words">Amount Chargeable : <b><%=orderData.final_total_words%></b></td>
+                </table>
+                <table class="payment">
+                    <tr style="border-top: 1px solid black;">
+                        <td id="payment-td" style="border-right: 1px solid black;">
+                            <b>Payment Method : </b><%=(orderData.payment_info.method).toUpperCase()%>
+
+                        </td>
+                        <td id="payment-td">
+                            <b>Payment Status : </b><%=(orderData.payment_info.status).toUpperCase()%>
+
+                        </td>
+                    </tr>
+
+                </table>
+                <div id="invoiceLoader" class="invoice-loader hidden">
+                    <div class="loader-box">
+                        <div class="spinner"></div>
+                        <p>Generating Invoice...</p>
+                        <p class="sub-txt">Please wait a few seconds</p>
+
+                    </div>
+                    </div>
+                <%if(orderData.delivery_attributes.type == "intraState"){%>
+                    <table class="gst_items">
+                        <thead>
+                            <tr style="border-top: 1px solid black;">
+                                <th style="width:30%" rowspan="2">HSN Code</th>
+                                <th style="width:10%"rowspan="2">Taxable Value</th>
+                                <th style="width:10%;border-bottom:1px solid black ;"colspan="2">CGST</th>
+                                <th style="width:10%;border-bottom:1px solid black ;"colspan="2">SGST</th>
+                                <th style="width:10%"rowspan="2">Total Tax</th>
+                            </tr>
+                             <tr>
+                                <th>Rate</th>
+                                <th>Amount</th>
+                                <th>Rate</th>
+                                <th style="border-right: 1px solid black;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%let sub_total = 0%>
+                            <%for(let x of orderData.tax_groups){%>
+                                <tr>
+                                    <td><%=x.hsnCode%> + <%=x.gst_rate%>%</td>
+                                    <td><%=roundTo2(x.taxable_value)%></td>
+                                    <td><%=roundTo2(x.gst_rate/2)%></td>
+                                    <td><%=roundTo2(x.cgst)%></td>
+                                    <td><%=roundTo2(x.gst_rate/2)%></td>
+                                    <td><%=roundTo2(x.sgst)%></td>
+                                    <td><%=roundTo2(x.total_tax)%></td>
+                                </tr>
+                                <%sub_total += x.cgst%>
+                                <%}%>
+                            <tr style="border-top:1px solid black; font-weight: bold;">
+                                <td><b>Total</b></td>
+                                <td><%=roundTo2(orderData.taxable_total)%></td>
+                                <td></td>
+                                <td><%=roundTo2(sub_total)%></td>
+                                <td></td>
+                                <td><%=roundTo2(sub_total)%></td>
+                                <td>₹<%=roundTo2(orderData.gst.total)%></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <%}%>
+                    <%if(orderData.delivery_attributes.type == "interState"){%>
+                         <table class="gst_items">
+                            <thead>
+                                <tr style="border-top: 1px solid black;">
+                                    <th style="width:30%" rowspan="2">HSN Code</th>
+                                    <th style="width:10%"rowspan="2">Taxable Value</th>
+                                    <th style="width:10%;"colspan="2">IGST</th>
+                                    <th style="width:10%"rowspan="2">Total Tax</th>
+                                </tr>
+                                <tr style="border-bottom:1px solid black ;border-top: 1px solid black;">
+                                    <th>Rate</th>
+                                    <th style="border-right: 1px solid black;">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%let sub_total = 0%>
+                                <%for(let x of orderData.tax_groups){%>
+                                    <tr>
+                                        <td><%=x.hsnCode%> + <%=x.gst_rate%>%</td>
+                                        <td><%=roundTo2(x.taxable_value)%></td>
+                                        <td><%=roundTo2(x.gst_rate)%></td>
+                                        <td><%=roundTo2(x.igst)%></td>
+                                        <td><%=roundTo2(x.total_tax)%></td>
+                                    </tr>
+                                    <%sub_total += x.igst%>
+                                    <%}%>
+                                <tr style="border-top:1px solid black; font-weight: bold;">
+                                    <td></td>
+                                    <td><%=roundTo2(orderData.taxable_total)%></td>
+                                    <td></td>
+                                    <td><%=roundTo2(sub_total)%></td>
+                                    <td><%=roundTo2(orderData.gst.total)%></td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <%}%>
+                        <table  style="width: 100%; table-layout: fixed;">
+                            <td class = "amount-words">Tax Amount : <b><%=orderData.gst.total_words%></b></td>
+                        </table>
+                        <table class="decleration">
+                            <tr style="border-top: 1px solid black;">
+                                <td  id = "decleration-box"style="border-right: 1px solid black; width: 50%; vertical-align: top;">
+                                    <p style="vertical-align: top; margin: 0; width: 100%;">
+                                        <b style="text-decoration: underline;">Decleration</b><br>
+                                        We declare that this invoice shows the actual price
+                                        of the goods described and that all particulars are true and correct
+                                    </p>
+                                </td>
+                                <td id = "decleration-box" style="vertical-align: top; text-align: right;">
+                                    <h4 style="text-decoration: underline;">For Morpankh dezine</h4>
+                                </td>
+                            </tr>
+                        </table>
+            </div>
+            <div class="button-group">
+                        <button class="button" id = "back" onclick="window.history.back()"><i data-lucide="arrow-left" class="back-icon"></i> Back To Order</button>
+                        <button class="button" id="generate" id="generate"><i data-lucide="circle-check" class="download-icon"></i>Complete Order</button>
+
+
+            </div>
+            <div class="success-msg">
+                <i data-lucide="party-popper" class="download-icon" style="margin-right: var(--space-xl);"></i>Your Order Has Been Successfully Completed
+            </div>
+
+
+        </div>
+        <script> window.orderID = "<%=orderData.order_id%>"
+        </script>
+        <script src="/js/bill.js"></script>
+        <script>
+        lucide.createIcons();
+        </script>
+
+
+</body>
+
+</html>

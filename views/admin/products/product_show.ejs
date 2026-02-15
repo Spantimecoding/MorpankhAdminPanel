@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Common Links -->
+    <%- include("../../partials/links") %>
+    <link href="/css/product_show.css" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Local Storage -->
+    <script>
+        localStorage.setItem("display", "<%=display%>")
+        console.log(localStorage.getItem("display"))
+    </script>
+    <!-- Admin Navigation -->
+    <%- include("../../partials/adminNav") %>
+    <!-- Display Code -->
+     <div class="product-layout">
+        <% for(let product of data){ %>
+            <div class="product-images">
+                <img src="<%=product.images[0]%>" class="image">
+                <img src="<%=product.images[1]%>" class="image">
+                <img src="<%=product.images[2]%>" class="image">
+                <img src="<%=product.images[3]%>" class="image">
+                <img src="<%=product.images[4]%>" class="image">
+                <img src="<%=product.images[5]%>" class="image">
+            </div>
+            <div class="header">Product Details</div>
+            <form method="post" action="/admin/products/update">
+                <div class="input-row">
+
+                    <div class="form-item">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" value="<%=product.name%>">
+                    </div>
+                    <div class="form-item">
+                        <label for="id">ID</label>
+                        <input type="text" id="id" name="id" value="<%=product.id%>" readonly>
+                    </div>
+                    <div class="form-item">
+                        <label for="barcode">Barcode</label>
+                        <input type="text" id="barcode" name="barcode" value="<%=product.barcode%>" readonly>
+                    </div>
+
+                </div>
+                <div class="input-row">
+                    <div class="form-item">
+                        <label for="category">Category</label>
+                        <input type="text" id="category" name="category" value="<%=product.category%>" readonly>
+                    </div>
+                    <div class="form-item">
+                        <label for="date">Date Created On</label>
+                        <input type="text" id="date" name="dateCreated" value="<%=product.dateCreated%>" readonly>
+
+                    </div>
+                    <div class="form-item">
+                        <label for="hsn">Product HSN Code</label>
+                        <input type="text" id="hsn" name="hsnCode" value="<%=product.hsnCode%>" readonly>
+
+                    </div>
+
+                </div>
+
+                <!-- Price + Material + Stock -->
+                <div class="input-row">
+
+                    <div class="form-item">
+                        <label for="price">Price</label>
+                        <input type="number" id="price" name="price" value="<%=product.price%>">
+                    </div>
+
+                    <div class="form-item">
+                        <label for="product-material">Material of Product</label>
+                        <select id="product-material" name="material">
+                        <option value="<%=product.material%>"><%=product.material%></option>
+
+                        <optgroup label="Natural Fabrics">
+                            <option value="cotton">Cotton</option>
+                            <option value="silk">Silk</option>
+                            <option value="linen">Linen</option>
+                            <option value="wool">Wool</option>
+                            <option value="khadi">Khadi</option>
+                            <option value="jute">Jute</option>
+                        </optgroup>
+
+                        <optgroup label="Semi-Synthetic Fabrics">
+                            <option value="rayon">Rayon</option>
+                            <option value="modal">Modal</option>
+                            <option value="viscose">Viscose</option>
+                            <option value="bamboo">Bamboo Fabric</option>
+                        </optgroup>
+
+                        <optgroup label="Synthetic Fabrics">
+                            <option value="polyester">Polyester</option>
+                            <option value="nylon">Nylon</option>
+                            <option value="acrylic">Acrylic</option>
+                            <option value="net">Net</option>
+                            <option value="organza">Organza</option>
+                            <option value="georgette">Georgette</option>
+                            <option value="chiffon">Chiffon</option>
+                            <option value="crepe">Crepe</option>
+                            <option value="satin">Satin</option>
+                            <option value="velvet">Velvet</option>
+                        </optgroup>
+
+                        <optgroup label="Home Decor Materials">
+                            <option value="wood">Wood</option>
+                            <option value="bamboo-decor">Bamboo</option>
+                            <option value="metal">Metal</option>
+                            <option value="ceramic">Ceramic</option>
+                            <option value="glass">Glass</option>
+                            <option value="stone">Stone</option>
+                            <option value="terracotta">Terracotta</option>
+                            <option value="resin">Resin</option>
+                        </optgroup>
+
+                        <optgroup label="Jewellery Materials">
+                            <option value="silver">Silver</option>
+                            <option value="gold-plated">Gold Plated</option>
+                            <option value="brass">Brass</option>
+                            <option value="copper">Copper</option>
+                            <option value="oxidised-metal">Oxidised Metal</option>
+                            <option value="alloy">Alloy</option>
+                            <option value="beads">Beads</option>
+                            <option value="stones">Stones</option>
+                            <option value="pearls">Pearls</option>
+                            <option value="shell">Shell</option>
+                            <option value="thread">Thread</option>
+                        </optgroup>
+                    </select>
+
+                    </div>
+
+                    <div class="form-item">
+                        <label for="stock">Number in Stock</label>
+                        <input type="number" id="stock" name="stock" value="<%=product.stock%>">
+                    </div>
+
+                </div>
+
+                <!-- Description -->
+                <div class="input-row">
+                    <div class="form-item" id="row">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description"><%=product.description%></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+            </form>
+            <% } %>
+     </div>
+
+
+    <!-- Scripts -->
+     <script>
+        window.dataset = <%- JSON.stringify(data) %>;
+        window.newAlert = "<%=new_alert%>"
+     </script>
+    <script src="/js/product_show.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="/js/add.js"></script>
+</body>
+</html>

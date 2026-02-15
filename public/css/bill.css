@@ -1,0 +1,341 @@
+.bill-layout{
+    display: flex;
+    flex-direction: column;
+    margin-left:var(--sidebar-width);
+    margin-top:var(--topbar-height);
+    width: 100% - var(--sidebar-width);
+    height: 100vh;
+    align-items: center;
+    padding: 1rem;
+    min-height: fit-content;
+}
+.invoice {
+  max-width: 850px;
+  border: 1px solid #000;
+  font-family:"Roboto Condensed";
+  z-index: 1;
+}
+.watermark{
+    z-index: -1;
+    position: absolute;
+    top: 100px;
+    left: 350px;
+    width: 800px;
+    height: 900px;
+    opacity: 0.07;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+td{
+    padding: 10px;
+}
+p{
+    line-height: 23px;
+}
+thead{
+    border-bottom: 1px solid black;
+}
+
+.header td {
+  vertical-align: top;
+}
+.company{
+    padding-right: 9rem;
+    border-right:1px solid black;
+    border-bottom: 1px solid black;
+}
+.invoice-meta{
+    padding-left: 7.5rem;
+    width: 50.1%;
+}
+.company h2,.invoice-meta h3,.addresses h2,.decleration h4{
+  margin: 0;
+}
+.invoice-meta {
+  text-align: right;
+  vertical-align: top;
+  border-bottom: 1px solid black;
+}
+.addresses{
+    width: 100%;
+}
+.bill-to{
+    padding-right: 5rem;
+    text-align: left;
+    vertical-align: top;
+}
+.ship-to{
+text-align: right;
+  vertical-align: top;
+  width: 50.1%;
+  border-left: 1px solid black;
+
+}
+.items{
+    border-top: 1px solid black;
+}
+
+.items th{
+  padding: 8px;
+  text-align: center;
+  background-color: grey;
+  border-right:1px solid black;
+}
+.items th:last-child{
+    border-right: none;
+    padding-right: 0;
+}
+.items td{
+    padding: 6px 4px;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+td:last-child{
+    border-right: none ;
+}
+.items td:last-child{
+    padding-right: 0;
+}
+.gst_items td{
+    padding: 6px 4px;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+
+}
+.gst_items td:last-child{
+    border-right: none;
+    padding-right: 0;
+}
+.gst_items th{
+    padding: 5px;
+    text-align: center;
+  background-color: grey;
+  border-right:1px solid black;
+}
+.gst_items th:last-child{
+    border-right: none;
+    padding-right: 0;
+}
+#payment-td{
+  width: 50%;
+
+}
+#decleration-box{
+    width: 70%;
+    padding: 4px;
+    text-align: left;
+    margin: 0;
+  }
+.amount-words{
+    padding: var(--space-m);
+  letter-spacing: 1px;
+  line-height: 24px;
+
+  white-space: normal;        /* allow wrapping */
+  word-break: break-word;     /* long words */
+  overflow-wrap: break-word;
+
+  max-width: 100%;
+}
+.button{
+    padding: var(--space-m) var(--space-l);
+    font-family: var(--font-head);
+    margin-top: var(--space-xl);
+    border-radius: 5px;
+    font-size: var(--space-l);
+    border: none;
+    color: var(--clr-txt-inv);
+    background-color: var(--clr-action);
+    transition: 0.6s;
+    cursor: pointer;
+}
+.button-group{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 48%;
+}
+#back:hover{
+    transform: translateX(-5px);
+    border-radius: 10px;
+    background-color: var(--clr-head);
+}
+#generate:hover{
+    transform: translateX(5px);
+    border-radius: 10px;
+        background-color: var(--clr-head);
+}
+.download-icon,.back-icon{
+    position: relative;
+    top: 5px;
+    margin-right: 6px;
+}
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .invoice,
+  .invoice * {
+    visibility: visible;
+  }
+  .watermark{
+    visibility: visible;
+  }
+  #decleration-box{
+    width: 70%;
+    margin: 0;
+  }
+  .amount-words{
+    padding: var(--space-xxs);
+    line-height: 20px;
+  }
+  .company{
+    padding-right: 3rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-right:1px solid black;
+    border-bottom: 1px solid black;
+  }
+  .invoice-meta{
+      padding-left: 2.5rem;
+      width: 50.1%;
+      padding-top: 0;
+      padding-bottom: 0;
+  }
+  .items td{
+    padding: 3px 4px;
+    border-right: 1px solid black;
+  }
+  .items td:last-child{
+    border-right: none;
+
+  }
+  .gst_items td{
+    padding: 3px 4px;
+    border-right: 1px solid black;
+
+  }
+  .text-para{
+    margin: 0;
+  }
+  #payment-td{
+    padding: 3px 4px;
+
+  }
+
+  .invoice {
+    position: static;
+    font-family:"Roboto Condensed";  
+    padding: 0;        /* 👈 THIS fixes the issue */
+    margin: 0 auto;            /* centered, symmetric */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+    .bill-layout {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+  }
+
+   table {
+    width: 100% !important;
+  }
+  .watermark {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.05;
+  background: url('/wm.png') center center no-repeat;
+  background-size: 60%;
+  pointer-events: none;
+}
+}
+@media print {
+  @page {
+    size: A4;
+    margin: 8mm 18mm 7mm 6mm;
+  }
+   * {
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}
+.invoice-loader {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loader-box {
+  background: white;
+  padding: 30px 40px;
+  position: relative;
+  left: 80px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.loader-box p{
+  font-family: var(--font-body);
+  margin-bottom: -5px;
+}
+.sub-txt{
+  color: var(--clr-txt-muted);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-top: 3px solid #222;
+  border-radius: 50%;
+  animation: spin 0.8s ease-in-out infinite;
+  margin: 0 auto 15px auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.hidden {
+  display: none;
+}
+.success-msg{
+  font-family: var(--font-head);
+  padding:var(--space-l);
+  width: 60%;
+  text-align: center;
+  font-size: var(--space-xl);
+  background-color: var(--alert-success-bg);
+  color: var(--alert-success-text);
+  border-radius: 5px;
+  position: relative;
+  margin-top: var(--space-m);
+  animation: appear 0.8s ease-in-out infinite
+}
+@keyframes appear {
+  0%{scale: 1}
+  50%{
+    scale:1.02
+  }
+  100%{scale:1}
+  
+}
+.success-msg p{
+  margin: 0;
+  padding: 0;
+}
+.success-msg .download-icon{
+  width: 30px;
+  height: 30px;
+}

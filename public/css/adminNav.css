@@ -1,0 +1,153 @@
+body,html{
+    margin: 0;
+    padding: 0;
+}
+.total-layout{
+    display: flex;
+    flex-direction: row;
+}
+.sidebar{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    padding: var(--space-s) var(--space-m);
+    align-items: flex-start;
+    background-color: var(--clr-head);
+    min-width: 13%;
+    height: 100vh;
+    border-right: 1px solid rgb(197, 196, 196);
+    box-shadow: var(--shadow-lg);
+    position: fixed;
+}
+.sidebar-brand{
+    font-family: var(--font-mainHead);
+    font-size: var(--space-xxl);
+    color: var(--clr-txt-inv);
+    margin-bottom: var(--space-xl);
+    padding-top: var(--space-s);
+    text-shadow:  0 2px 4px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    position: relative;
+    bottom: 6px;
+}
+.sidebar .icon{
+    color: currentColor;
+}
+.sidebar-items:hover{
+    transform: translateX(4px);
+    color: var(--clr-txt-inv);
+    background-color:#0211258f;
+    text-shadow:  0 2px 4px rgba(0, 0, 0, 0.15);
+}
+a{
+    text-decoration: none;
+    width: 90%;
+    text-align: start;
+    align-self: start;
+}
+a .sidebar-items {
+    text-decoration: none;
+    color: var(--clr-txt-inv-muted);
+    text-shadow:  0 2px 4px rgba(0, 0, 0, 0.15);
+    font-family: var(--font-head);
+    border-radius: 5px;
+    padding:var(--space-s) 0.5rem;
+    width: 100%;
+    transition: 0.5s;
+}
+
+.icon{
+    color: var(--clr-txt-muted);
+    width: 18px;
+    height: 18px;
+    margin-right: var(--space-xs);
+    position: relative;
+    top: 3px;
+}
+.topbar{
+    background-color: var(--clr-bg-card);
+    max-height: var(--space-7xl);
+    border-bottom: 1px solid rgb(197, 196, 196);
+    width: 100vw;
+    position: fixed;
+    margin-left: var(--sidebar-width);
+    z-index:2;
+    box-shadow: var(--shadow-lg);
+
+  
+}
+.topbar-text{
+    font-family: var(--font-head);
+    font-size: var(--space-xxl);
+    padding: var(--space-m) var(--space-xxl);
+    position: relative;
+    right: 16px;
+    animation: 
+    appears 0.7s linear forwards,slide 0.5s ease-in-out forwards
+}
+@keyframes appears {
+    0%{
+        opacity: 0;
+
+    }
+    100%{
+       opacity: 1;
+    }
+}
+@keyframes slide {
+    0%{
+        right: 16px;
+    }
+    100%{
+        right: 0;
+    }
+    
+}
+.chevron-right{
+    width: 30px;
+    height:30px;
+    position: relative;
+    top: 4px;
+    margin-right:var(--space-s);
+    color: var(--clr-txt-muted);
+}
+
+.signOut{
+    margin-top:2.5rem;
+    border-top: 1px solid var(--clr-border-medium);
+    padding-top: var(--space-m);
+    
+}
+.alert{
+    position: fixed;
+    right: 40px;
+    top: 20px;
+    transform: translateX(200px);
+    opacity: 0;
+    z-index: 1;
+    background-color:var(--pill-green-bg);
+    width: 400px;
+    height: 30px;
+    border-radius: var(--rad-s);
+    padding: var(--space-s);
+    font-family: var(--font-head);
+    font-weight: bold;
+    margin: auto;
+    transition: 2s;
+
+}
+.alert.show{
+    opacity: 1;
+    transition: 0.5s;
+    transform: translateX(20px);
+}
+.alert-icon{
+    position: relative;
+    top:3px;
+    margin-right:var(--space-s);
+}
+.alert-txt{
+    position: relative;
+    bottom: 3px;
+
+}

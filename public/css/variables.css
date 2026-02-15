@@ -1,0 +1,113 @@
+:root{
+    /*Colors - */
+    --clr-action:#1F6F5B;
+    --clr-head:#1E3A5F;
+    --clr-section-light:#CFE7E8;
+    --clr-acc:#C9A24D;
+    --clr-bg-website:#F7F6F3;
+    --clr-bg-card:#FFFFFF;
+    --clr-bg-subcard:#F5F5F5;
+    --clr-txt-body:#2E2E2E;
+    --clr-txt-muted:#6B6B6B;
+    --clr-txt-inv:#FAFAFA;
+    --clr-txt-inv-muted:#E6E6E6;
+    --clr-border-light: rgb(220, 220, 220);
+    --clr-border-medium:rgb(197, 196, 196);
+    --clr-border-heavy: rgb(145, 144, 144);
+    --clr-dash-update:#FF6F4F;
+    
+
+    /*Fonts - */
+    --font-mainHead:"Playfair Display";
+    --font-head:"Montserrat";
+    --font-body:"Inter";
+    --font-form:"Oswald";
+    --font-invoice:"Roboto"
+
+    /* Spacing */
+    --space-3xs:0.1rem;
+    --space-xxs: 0.25rem;
+    --space-xs: 0.5rem;
+    --space-xms:0.6rem;
+    --space-s: 0.75rem;
+    --space-sm:0.87rem;
+    --space-m: 1rem;
+    --space-ml: 1.15rem;
+    --space-l: 1.25rem;
+    --space-xl: 1.5rem;
+    --space-xxl: 1.75rem;
+    --space-3xl: 2rem;
+    --space-4xl:2.5rem;
+    --space-5xl:3.5rem;
+    --space-6xl:4rem;
+    --space-7xl:5rem;
+    --sidebar-width:12.3rem;
+    --topbar-height:4.9rem;
+
+    /*radius*/
+    --rad-s:5px;
+    --rad-m:10px;
+    --rad-l:15px;
+
+    /*Shadow*/
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --shadow-solid-pale: 0 4px 0 rgba(111, 175, 181, 0.35);
+    --shadow-solid-head:4px 4px 0 #1E3A5F;
+    --shadow-solid-bright:  4px 4px 0 rgba(143, 198, 201, 0.85);
+    --shadow-solid-focus: 4px 4px 0 rgb(186, 104, 104);
+
+    /*CSS Pills - */
+    --pill-green-bg: #E6F4EA;
+    --pill-green-text: #137333;
+
+    --pill-red-bg: #FCE8E6;
+    --pill-red-text: #A50E0E;
+
+    --pill-amber-bg: #FEF7E0;
+    --pill-amber-text: #92400E;
+
+    --pill-blue-bg: #E8F0FE;
+    --pill-blue-text: #1A73E8;
+
+    --pill-gray-bg: #F1F3F4;
+    --pill-gray-text: #5F6368;
+
+    --pill-purple-bg: #F3E8FF;
+    --pill-purple-text: #6B21A8;
+
+    --pill-orange-bg: #FFF7ED;
+    --pill-orange-text: #9A3412;
+
+    --pill-teal-bg: #E6FFFA;
+    --pill-teal-text: #065F46;
+
+    /*Alerts - */
+    --alert-default-bg: #F2F2F2;
+    --alert-default-text: #6B7280;
+    --alert-default-border: #D1D5DB;
+
+    /* SUCCESS (green) */
+    --alert-success-bg: #D1FAE5;
+    --alert-success-text: #065F46;
+    --alert-success-border: #34D399;
+
+    /* INFO (blue) */
+    --alert-info-bg: #E0F2FE;
+    --alert-info-text: #0369A1;
+    --alert-info-border: #38BDF8;
+
+    /* ERROR / DANGER (red) */
+    --alert-danger-bg: #FEE2E2;
+    --alert-danger-text: #991B1B;
+    --alert-danger-border: #F87171;
+
+    /* WARNING (orange) */
+    --alert-warning-bg: #FEF3C7;
+    --alert-warning-text: #92400E;
+    --alert-warning-border: #F59E0B;
+
+    
+}

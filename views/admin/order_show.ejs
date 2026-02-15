@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../partials/links") %>
+    <link href="/css/order_show.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        localStorage.setItem("display", "<%=display%>")
+        console.log(localStorage.getItem("display"))
+    </script>
+    <!-- Admin Navigation -->
+    <%- include("../partials/adminNav") %>
+    <div class="order-layout">
+        <div class="status-group">
+            <div class="form-item">
+                        <label for="payment">Payment Status</label>
+                        <select id="payment">
+                            <option value="<%=orderData.paymentInfo.paymentStatus%>"><%=orderData.paymentInfo.paymentStatus%></option>
+                            <option value="semiPaid">Semi-Paid</option>
+                            <option value="paid">Paid</option>
+                            <option value="payLater">Pay Later</option>
+                            <option value="refunded">Refunded</option>
+                        </select>
+
+            </div>
+            <div class="form-item">
+                <label for="order">Order Status</label>
+                        <select id="order">
+                            <option value="<%=orderData.orderStatus%>"><%=orderData.orderStatus%></option>
+                            <option value="accepted">Accepted</option>
+                            <option value="packaged">Packaged</option>
+                            <option value="dispatched">Dispatched</option>
+                            <option value="completed">Completed</option>
+                            <option value="returned">Returned</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+
+            </div>
+            <button class="update"><i data-lucide="file-pen-line" class="box-icon"></i><span style="position: relative;bottom: 3px;">Update Status</span></button>
+
+        </div>
+        <table class="order-table">
+            <thead>
+                <tr class="head-row">
+                    <th class="head-item" style="width: 40%;"> Product Name</th>
+                    <th class="head-item">Qty</th>
+                    <th class="head-item">Unit Total</th>
+                    <th class="head-item">Dsc</th>
+                    <th class="head-item">HSN</th>
+                    <th class="head-item">GST</th>
+                    <th class="head-item" style="text-align: right;"> Gross Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%for(let x of orderData.items_info){%>
+                    <tr>
+                        <td class="body-item" style="color:var(--clr-txt-body)"><%=x.name%></td>
+                        <td class="body-item"><%=x.quantity%></td>
+                        <td class="body-item">₹<%=x.unitPrice%></td>
+                        <td class="body-item">₹<%=Math.round(x.totalDiscount)%></td>
+                        <td class="body-item"><%=x.hsnCode%></td>
+                        <td class="body-item">₹<%=Math.round(x.gstAmount)%></td>
+                        <td class="body-item" style="font-size: var(--space-l); color: var(--clr-txt-body); border-left: 1px solid var(--clr-border-medium); text-align: right; font-weight: bold;">₹<%=Math.round(x.lineTotal)%></td>
+                    </tr>
+                    <%}%>
+            </tbody>
+        </table>
+        <div class="table-group">
+            <table class="summary">
+                <tr>
+                    <td class="header"><i data-lucide="notebook-text" class="box-icon"></i>FINANCIAL SUMMARY</td>
+                    <td class="header"></td>
+                </tr>
+                <tr>
+                    <td class="summary-head" style="font-size: var(--space-l); color: var(--clr-txt-body);border-bottom: 1px solid var(--clr-border-medium);">Grand Total</td>
+                    <td class="summary-item" style="font-size: var(--space-l); color: var(--clr-txt-body); border-bottom: 1px solid var(--clr-border-medium); font-weight: bold;">₹<%=Math.round(orderData.summary.grandTotal)%></td>
+                </tr>
+                <tr>
+                    <td class="summary-head" >Sub Total</td>
+                    <td class="summary-item">₹<%=orderData.summary.subTotal%></td>
+                </tr>
+                <tr>
+                    <td class="summary-head" >Order Discount</td>
+                    <td class="summary-item">₹<%=orderData.summary.orderDiscountTotal%></td>
+                </tr>
+                <tr>
+                    <td class="summary-head" >Item Discount</td>
+                    <td class="summary-item">₹<%=orderData.summary.itemDiscountTotal%></td>
+                </tr>
+                <tr>
+                    <td class="summary-head" >Total GST</td>
+                    <td class="summary-item">₹<%=Math.round(orderData.summary.gstTotal)%></td>
+                </tr>
+                <tr>
+                    <td class="summary-head" >Total Taxable</td>
+                    <td class="summary-item">₹<%=Math.round(orderData.summary.taxableTotal)%></td>
+                </tr>
+
+            </table>
+            <table class="summary">
+                <tr>
+                    <td class="header" style="width: 60%;"><i data-lucide="notebook-text" class="box-icon"></i> ORDER SUMMARY</td>
+                    <td class="header"></td>
+                </tr>
+                <tr>
+                    <td class="cst-summary-head"style="font-size: var(--space-l); color: var(--clr-txt-body);border-bottom: 1px solid var(--clr-border-medium);">Buyer Name</td>
+                    <td class="cst-summary-item"style="font-size: var(--space-l); color: var(--clr-txt-body);font-weight:bold;border-bottom: 1px solid var(--clr-border-medium);"><%=orderData.customerName%></td>
+                </tr>
+                <tr>
+                    <td class="cst-summary-head">Buyer Number</td>
+                    <td class="cst-summary-item"><%=orderData.customerMobile%></td>
+                </tr>
+                <tr>
+                    <td class="cst-summary-head">Order Type</td>
+                    <td class="cst-summary-item"><%=orderData.orderType%></td>
+                </tr>
+                <tr>
+                    <td class="cst-summary-head">Payment Mode</td>
+                    <td class="cst-summary-item"><%=orderData.paymentInfo.paymentMode%></td>
+                </tr>
+                <%if(orderData.paymentInfo.paymentStatus == "semiPaid"){%>
+                <tr>
+                    <td class="cst-summary-head">Semi Paid Amt</td>
+                    <td class="cst-summary-item">₹<%=orderData.paymentInfo.semiPaidAmount%></td>
+                </tr>
+                    <%}%>
+                <%if(orderData.orderType == "delivery"){%>
+                    <%if(orderData.delivery_info.receiverName !== orderData.customerName){%>
+                        <tr>
+                            <td class="cst-summary-head">Receiver Name</td>
+                            <td class="cst-summary-item"><%=orderData.delivery_info.receiverName%></td>
+                        </tr>
+                        <tr>
+                            <td class="cst-summary-head">Receiver Number</td>
+                            <td class="cst-summary-item"><%=orderData.delivery_info.receiverNumber%></td>
+                        </tr>
+
+                        <%}else if(orderData.delivery_info.receiverName == orderData.customerName){%>
+                            <tr>
+                                <td class="cst-summary-head">Receiver</td>
+                                <td class="cst-summary-item">Same As Buyer</td>
+                            </tr>
+                            <%}%>
+                    <%}%>
+            </table>
+        </div>
+        <%if(orderData.orderType == "delivery"){%>
+            <div style="margin-bottom: var(--space-3xl); width: 100%;">
+                <table class="address">
+                    <tr>
+                        <td class="cst-summary-head" style="width: 30%; font-size: var(--space-xl);color: var(--clr-txt-body); background-color: var(--clr-head); color: var(--clr-txt-inv);"><i data-lucide="house" class="box-icon"></i>Order Address</td>
+                        <td class="cst-summary-item" style="color: var(--clr-txt-body);"><%=orderData.delivery_info.address%></td>
+                    </tr>
+
+                </table>
+
+            </div>
+            <%}%>
+    </div>
+    <script>
+        window.orderID = "<%=orderData.orderId%>"
+        window.orderTotal = "<%=orderData.summary.grandTotal%>"
+        window.prevPayment = "<%=orderData.paymentInfo.paymentStatus%>"
+        if("<%=orderData.paymentInfo.semiPaidAmount%>"){
+            window.paymentRemain = "<%=orderData.paymentInfo.semiPaidAmount%>"
+        }
+        window.orderType = "<%=orderData.orderType%>"
+    </script>
+    <script src="/js/order_show.js"></script>
+    <script>
+        lucide.createIcons()
+    </script>
+    
+</body>
+</html>
