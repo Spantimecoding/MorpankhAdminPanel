@@ -1,13 +1,10 @@
 //Mongoose To MongoDB
 const mongoose = require("mongoose")
 require("dotenv").config()
-mongoose.connect(process.env.MONGO_URI)
-.then(()=>{
-    console.log("Connected To Database at Port : 27017")
-})
-.catch((err)=>{
-    console.log(`Error in Connecting to Database at Port : 27017\nError Message - ${err}`)
-})
+const connectDB = async () => {
+  await mongoose.connect(process.env.MONGO_URI);
+  console.log("MongoDB Connected");
+};
 module.exports = mongoose
 productSchema = new mongoose.Schema({
     name:{
@@ -258,5 +255,5 @@ const tax_model = mongoose.model("tax_model",taxSchema)
 const product_model = mongoose.model("product_model",productSchema)
 const invoice_model = mongoose.model("invoice_model",invoiceSchema)
 const order_model = mongoose.model("order_model",orderSchema)
-module.exports = {product_model,tax_model,order_model,invoice_model,draft_model,alert_model,dash_model}
+module.exports = {connectDB,product_model,tax_model,order_model,invoice_model,draft_model,alert_model,dash_model}
 
