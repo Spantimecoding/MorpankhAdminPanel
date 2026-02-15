@@ -24,7 +24,7 @@ router.get("/regenerate/:barcode",async (req,res)=>{
 
         return res.end(barcodeImage);
 })
-router.get("/", async (req,res)=>{
+router.get("/allProducts", async (req,res)=>{
     try{
         const search = req.query.search || ""
         let page = parseInt(req.query.page) || 1;
