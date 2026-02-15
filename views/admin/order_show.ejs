@@ -165,9 +165,8 @@
         window.orderID = "<%=orderData.orderId%>"
         window.orderTotal = "<%=orderData.summary.grandTotal%>"
         window.prevPayment = "<%=orderData.paymentInfo.paymentStatus%>"
-        if("<%=orderData.paymentInfo.semiPaidAmount%>"){
-            window.paymentRemain = "<%=orderData.paymentInfo.semiPaidAmount%>"
-        }
+        window.paymentRemain = "<%=orderData.paymentInfo.semiPaidAmount || 0 %>"
+
         window.orderType = "<%=orderData.orderType%>"
     </script>
     <script src="/js/order_show.js"></script>
