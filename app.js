@@ -24,5 +24,8 @@ app.use(
 );
 app.use("/admin",require("./routes/admin/index"))
 app.use(express.static("public"))
+app.get("/", (req, res) => {
+  res.redirect("/admin");
+});
 //Exports - 
 module.exports = app
