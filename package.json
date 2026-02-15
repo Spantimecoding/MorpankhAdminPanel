@@ -7,7 +7,8 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+      "start": "node index.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "axios": "^1.13.2",
@@ -22,5 +23,6 @@
     "puppeteer": "^24.36.1",
     "twilio": "^5.12.1",
     "uuid": "^13.0.0"
-  }
+  },
+  
 }
