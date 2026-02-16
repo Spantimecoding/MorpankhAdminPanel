@@ -285,7 +285,8 @@ router.get(`/generate-invoice/:order_ID`, async (req, res) => {
                 "--no-sandbox",
                 "--disable-setuid-sandbox",
                 "--disable-dev-shm-usage"
-            ]
+            ],
+            executablePath: puppeteer.executablePath()
             })
 
 
