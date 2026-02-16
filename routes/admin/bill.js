@@ -106,309 +106,255 @@ async function sendWhatsAppInvoice(customerPhone, customerName, totalAmount) {
  ****************************************************/
 router.get(`/generate-invoice/:order_ID`, async (req, res) => {
 
-    const order_id = req.params.order_ID
-    console.log("Invoice Generation Initiated for Order ID", order_id)
+    const mongoose = require("mongoose")
+    const session = await mongoose.startSession()
 
-    /******** Puppeteer PDF Generation ********/
-    const browser = await puppeteer.launch({
-        headless: "new",
-        args: ["--no-sandbox", "--disable-setuid-sandbox"]
-    })
+    let orderData = null
+    let orderStatusVar = ""
 
-    const page = await browser.newPage()
+    try {
 
-    const baseURL = `${req.protocol}://${req.get("host")}`;
+        session.startTransaction()
 
-    await page.goto(
-    `${baseURL}/admin/bill`,
-    { waitUntil: "networkidle0" }
-    );
-    await page.waitForSelector(".invoice", { timeout: 10000 })
+        const order_id = req.params.order_ID
+        console.log("Invoice Generation Initiated for Order ID", order_id)
 
-    const filePath = path.join(
-        __dirname,
-        `../invoices/invoice-${order_id}.pdf`
-    )
+        const draftData = await draft_model.findOne({}, null, { session })
+        orderData = draftData?.orderObject
 
-    await page.pdf({
-        path: filePath,
-        format: "A4",
-        printBackground: true,
-        preferCSSPageSize: true
-    })
-    const fileId = await uploadInvoiceToDrive(
-    filePath,
-    `invoice-${order_id}.pdf`
-    );
+        if (!orderData) {
+            throw new Error("Missing draft order data for invoice generation")
+        }
 
-    console.log("Uploaded to Drive. File ID:", fileId);
+        /******** Line Item Mapping ********/
+        const items = orderData.products_info.map(p => ({
+            productId: p.barcode,
+            name: p.name,
+            hsnCode: String(p.hsnCode),
+            barcode: Number(p.barcode),
+            quantity: p.quantity,
+            unitPrice: p.price,
+            totalDiscount: roundTo2(p.discount_amount + p.order_level_discount),
+            taxableValue: roundTo2(p.discounted_line_total),
+            gstRate: p.gst_rate,
+            gstAmount: roundTo2(p.gst_amount),
+            lineTotal: roundTo2(p.discounted_taxed_line_total)
+        }))
 
+        /******** Order Status Logic ********/
+        if (orderData.delivery_attributes.address) {
+            orderStatusVar = "accepted"
+        } else {
+            orderStatusVar = "completed"
+        }
 
-    await browser.close()
+        /******** Stock Update ********/
+        for (let x of orderData.products_info) {
+            await product_model.updateOne(
+                { barcode: x.barcode },
+                { $inc: { stock: -x.quantity } },
+                { session }
+            )
+        }
 
-    /******** Send PDF Response ********/
-    res.setHeader("Content-Type", "application/pdf")
-    res.setHeader(
-        "Content-Disposition",
-        `attachment; filename=invoice-${order_id}.pdf`
-    )
-    res.sendFile(filePath)
+        /******** Order Creation ********/
+        await order_model.create([{
+            orderId: orderData.order_id,
+            invoiceNumber: orderData.invoice_number,
+            customerMobile: orderData.customer_num,
+            customerName: orderData.customer_name,
+            orderType: orderData.order_type,
+            paymentInfo: {
+                paymentStatus: orderData.payment_info.status,
+                paymentMode: orderData.payment_info.method,
+                semiPaidAmount: orderData.payment_info.semi_paid_amount
+            },
+            items_info: items,
+            summary: {
+                subTotal: roundTo2(orderData.gross_sub_total),
+                itemDiscountTotal: roundTo2(orderData.discount_info.item_level),
+                orderDiscountTotal: roundTo2(orderData.discount_info.order_level),
+                gstTotal: roundTo2(orderData.gst.total),
+                taxableTotal: roundTo2(orderData.taxable_total),
+                grandTotal: roundTo2(orderData.final_total)
+            },
+            delivery_info: {
+                address: orderData.delivery_attributes.address,
+                distance: orderData.delivery_attributes.type,
+                receiverType: orderData.delivery_attributes.receiver,
+                receiverName: orderData.delivery_attributes.receiver_name,
+                receiverNumber: orderData.delivery_attributes.receiver_number
+            },
+            orderStatus: orderStatusVar
+        }], { session })
+
+        /******** Invoice Counter ********/
+        await invoice_model.updateOne(
+            {},
+            { $set: { lastInvoiceNumber: orderData.nextInvoiceNumber - 1 } },
+            { session }
+        )
+
+        /******** GST Updates ********/
+        if (orderData.delivery_attributes.type == "intraState") {
+
+            await dash_model.updateMany({}, {
+                $inc: {
+                    "brandRevenue.gstToday": orderData.gst.total,
+                    "brandRevenue.gstMonth": orderData.gst.total,
+                    "brandRevenue.cgstToday": orderData.gst.total / 2,
+                    "brandRevenue.sgstToday": orderData.gst.total / 2
+                }
+            }, { session })
+
+        } else if (orderData.delivery_attributes.type == "interState") {
+
+            await dash_model.updateMany({}, {
+                $inc: {
+                    "brandRevenue.gstToday": orderData.gst.total,
+                    "brandRevenue.gstMonth": orderData.gst.total,
+                    "brandRevenue.igstToday": orderData.gst.total
+                }
+            }, { session })
+        }
+
+        /******** Order + Revenue Metrics ********/
+        const commonIncs = {
+            "brandOrders.totalOrders": 1,
+            "brandOrders.ordersToday": 1,
+            "brandOrders.ordersMonth": 1
+        }
+
+        if (orderData.order_type == "delivery") {
+            commonIncs["brandOrders.ordersAccepted"] = 1
+        } else {
+            commonIncs["brandOrders.ordersInStoreToday"] = 1
+        }
+
+        if (orderData.payment_info.status == "paid") {
+
+            commonIncs["brandRevenue.revenueTotal"] = orderData.final_total
+            commonIncs["brandRevenue.revenueToday"] = orderData.final_total
+            commonIncs["brandRevenue.revenueMonth"] = orderData.final_total
+
+            if (orderData.order_type == "delivery") {
+                commonIncs["brandRevenue.revenueDelivered"] = orderData.final_total
+            } else {
+                commonIncs["brandRevenue.revenueInStore"] = orderData.final_total
+            }
+
+        } else if (orderData.payment_info.status == "payLater") {
+
+            commonIncs["brandRevenue.ordersPayLater"] = 1
+            commonIncs["brandRevenue.revenueOutstanding"] = orderData.final_total
+
+        } else if (orderData.payment_info.status == "semiPaid") {
+
+            commonIncs["brandRevenue.ordersSemiPay"] = 1
+            commonIncs["brandRevenue.revenueOutstanding"] =
+                (orderData.final_total - orderData.payment_info.semi_paid_amount)
+        }
+
+        await dash_model.updateMany({}, { $inc: commonIncs }, { session })
+
+        await session.commitTransaction()
+        session.endSession()
+
+        console.log("Transaction Committed Successfully")
+
+    } catch (err) {
+
+        if (session.inTransaction()) {
+            await session.abortTransaction()
+        }
+
+        session.endSession()
+
+        console.error("Transaction Failed:", err)
+        return res.status(500).send("Order Processing Failed")
+    }
 
     /************************************************
-     * COMPLETE ORDER CREATION & DB OPERATIONS
+     * POST-COMMIT SECTION (NO TRANSACTION HERE)
      ************************************************/
-    draft_model.find({})
-        .then(data => {
 
-            let orderData = data[0]?.orderObject
+    try {
 
-            if (!orderData) {
-                throw new Error("Missing draft order data for invoice generation")
-            }
-            sendWhatsAppInvoice(`91${orderData.customer_num}`,orderData.customer_name,orderData.final_total)
-
-            /******** Line Item Mapping ********/
-            const items = orderData.products_info.map(p => ({
-                productId: p.barcode,
-                name: p.name,
-                hsnCode: String(p.hsnCode),
-                barcode: Number(p.barcode),
-                quantity: p.quantity,
-                unitPrice: p.price,
-                totalDiscount: roundTo2(p.discount_amount + p.order_level_discount),
-                taxableValue: roundTo2(p.discounted_line_total),
-                gstRate: p.gst_rate,
-                gstAmount: roundTo2(p.gst_amount),
-                lineTotal: roundTo2(p.discounted_taxed_line_total)
-            }))
-
-            /******** Order Status Logic ********/
-            if (orderData.delivery_attributes.address) {
-                orderStatusVar = "accepted"
-            } else {
-                orderStatusVar = "completed"
-            }
-
-            /******** Stock Update ********/
-            async function stockUpdate() {
-                for (let x of orderData.products_info) {
-                    const bc = x.barcode
-                    await product_model.updateOne(
-                        { barcode: bc },
-                        { $inc: { stock: -x.quantity } }
-                    )
-                }
-            }
-
-            stockUpdate()
-
-            /******** Order Creation ********/
-            order_model.create({
-
-                orderId: orderData.order_id,
-                invoiceNumber: orderData.invoice_number,
-                customerMobile: orderData.customer_num,
-                customerName: orderData.customer_name,
-                orderType: orderData.order_type,
-
-                paymentInfo: {
-                    paymentStatus: orderData.payment_info.status,
-                    paymentMode: orderData.payment_info.method,
-                    semiPaidAmount: orderData.payment_info.semi_paid_amount
-                },
-
-                items_info: items,
-
-                summary: {
-                    subTotal: roundTo2(orderData.gross_sub_total),
-                    itemDiscountTotal: roundTo2(orderData.discount_info.item_level),
-                    orderDiscountTotal: roundTo2(orderData.discount_info.order_level),
-                    gstTotal: roundTo2(orderData.gst.total),
-                    taxableTotal: roundTo2(orderData.taxable_total),
-                    grandTotal: roundTo2(orderData.final_total)
-                },
-
-                delivery_info: {
-                    address: orderData.delivery_attributes.address,
-                    distance: orderData.delivery_attributes.type,
-                    receiverType: orderData.delivery_attributes.receiver,
-                    receiverName: orderData.delivery_attributes.receiver_name,
-                    receiverNumber: orderData.delivery_attributes.receiver_number
-                },
-
-                orderStatus: orderStatusVar
-
-            }).then(
-
-                console.log(`Order with ID - ${order_id} added to Orders Collection`),
-
-
-                invoice_model.updateOne(
-                    {},
-                    { $set: { lastInvoiceNumber: orderData.nextInvoiceNumber - 1 } }
-                ).then(res => {
-
-                    console.log("Invoice Number Updated")
-
-                    /******** GST & DASHBOARD UPDATES ********/
-                    if (orderData.delivery_attributes.type == "intraState") {
-
-                        dash_model.updateMany({}, {
-                            $inc: {
-                                "brandRevenue.gstToday": orderData.gst.total,
-                                "brandRevenue.gstMonth": orderData.gst.total,
-                                "brandRevenue.cgstToday": orderData.gst.total / 2,
-                                "brandRevenue.sgstToday": orderData.gst.total / 2
-                            },
-                            $set: {
-                                "adminSeshActions.message": `Order : ${orderData.invoice_number} Sold`,
-                                "adminSeshActions.messageHead": "Order Sale"
-                            }
-                        }).then(res => console.log(res))
-
-                    } else if (orderData.delivery_attributes.type == "interState") {
-
-                        dash_model.updateMany({}, {
-                            $inc: {
-                                "brandRevenue.gstToday": orderData.gst.total,
-                                "brandRevenue.gstMonth": orderData.gst.total,
-                                "brandRevenue.igstToday": orderData.gst.total
-                            },
-                            $set: {
-                                "adminSeshActions.message": `Order : ${orderData.invoice_number} Sold`,
-                                "adminSeshActions.messageHead": "Order Sale"
-                            }
-                        }).then(res => console.log(res))
-                    }
-
-                    /******** ORDER TYPE BASED METRICS ********/
-                    if (orderData.order_type == "delivery") {
-
-                        if (orderData.payment_info.status == "paid") {
-
-                            dash_model.updateMany({}, {
-                                $inc: {
-                                    "brandOrders.totalOrders": 1,
-                                    "brandOrders.ordersToday": 1,
-                                    "brandOrders.ordersMonth": 1,
-                                    "brandOrders.ordersAccepted": 1,
-                                    "brandRevenue.revenueTotal": orderData.final_total,
-                                    "brandRevenue.revenueToday": orderData.final_total,
-                                    "brandRevenue.revenueMonth": orderData.final_total,
-                                    "brandRevenue.revenueDelivered":orderData.final_total
-                                },
-                                $set: {
-                                    "adminSeshActions.message": `Order : ${orderData.invoice_number} Sold`,
-                                    "adminSeshActions.messageHead": "Order Sale"
-                                }
-                            }).then(res => console.log(res))
-
-                        } else if (orderData.payment_info.status == "payLater") {
-
-                            dash_model.updateMany({}, {
-                                $inc: {
-                                    "brandOrders.totalOrders": 1,
-                                    "brandOrders.ordersToday": 1,
-                                    "brandOrders.ordersMonth": 1,
-                                    "brandOrders.ordersAccepted": 1,
-                                    "brandRevenue.ordersPayLater": 1,
-                                    "brandRevenue.revenueOutstanding":orderData.final_total
-                                },
-                                $set: {
-                                    "adminSeshActions.message": `Order : ${orderData.invoice_number} Sold`,
-                                    "adminSeshActions.messageHead": "Order Sale"
-                                }
-                            }).then(res => console.log(res))
-
-                        } else if (orderData.payment_info.status == "semiPaid") {
-
-                            dash_model.updateMany({}, {
-                                $inc: {
-                                    "brandOrders.totalOrders": 1,
-                                    "brandOrders.ordersToday": 1,
-                                    "brandOrders.ordersMonth": 1,
-                                    "brandOrders.ordersAccepted": 1,
-                                    "brandRevenue.ordersSemiPay": 1,
-                                    "brandRevenue.revenueOutstanding":(orderData.final_total - orderData.payment_info.semi_paid_amount)
-                                },
-                                $set: {
-                                    "adminSeshActions.message": `Order : ${orderData.invoice_number} Sold`,
-                                    "adminSeshActions.messageHead": "Order Sale"
-                                }
-                            }).then(res => console.log(res))
-                        }
-
-                    } else {
-
-                        if (orderData.payment_info.status == "paid") {
-
-                            dash_model.updateMany({}, {
-                                $inc: {
-                                    "brandOrders.totalOrders": 1,
-                                    "brandOrders.ordersToday": 1,
-                                    "brandOrders.ordersMonth": 1,
-                                    "brandOrders.ordersInStoreToday": 1,
-                                    "brandRevenue.revenueTotal": orderData.final_total,
-                                    "brandRevenue.revenueToday": orderData.final_total,
-                                    "brandRevenue.revenueMonth": orderData.final_total,
-                                    "brandRevenue.revenueInStore":orderData.final_total
-                                },
-                                $set: {
-                                    "adminSeshActions.message": `Order : ${orderData.invoice_number} Sold`,
-                                    "adminSeshActions.messageHead": "Order Sale"
-                                }
-                            }).then(res => console.log(res))
-
-                        } else if (orderData.payment_info.status == "payLater") {
-
-                            dash_model.updateMany({}, {
-                                $inc: {
-                                    "brandOrders.totalOrders": 1,
-                                    "brandOrders.ordersToday": 1,
-                                    "brandOrders.ordersMonth": 1,
-                                    "brandOrders.ordersInStoreToday": 1,
-                                    "brandRevenue.ordersPayLater": 1,
-                                    "brandRevenue.revenueOutstanding":orderData.final_total
-                                },
-                                $set: {
-                                    "adminSeshActions.message": `Order : ${orderData.invoice_number} Sold`,
-                                    "adminSeshActions.messageHead": "Order Sale"
-                                }
-                            }).then(res => console.log(res))
-
-                        } else if (orderData.payment_info.status == "semiPaid") {
-
-                            dash_model.updateMany({}, {
-                                $inc: {
-                                    "brandOrders.totalOrders": 1,
-                                    "brandOrders.ordersToday": 1,
-                                    "brandOrders.ordersMonth": 1,
-                                    "brandOrders.ordersInStoreToday": 1,
-                                    "brandRevenue.ordersSemiPay": 1,
-                                    "brandRevenue.revenueOutstanding":(orderData.final_total - orderData.payment_info.semi_paid_amount)
-                                },
-                                $set: {
-                                    "adminSeshActions.message": `Order : ${orderData.invoice_number} Sold`,
-                                    "adminSeshActions.messageHead": "Order Sale"
-                                }
-                            }).then(res => console.log(res))
-                        }
-                    }
-                })
-            )
+        const browser = await puppeteer.launch({
+            headless: "new",
+            args: ["--no-sandbox", "--disable-setuid-sandbox"]
         })
+
+        const page = await browser.newPage()
+        const baseURL = `${req.protocol}://${req.get("host")}`
+
+        await page.goto(`${baseURL}/admin/bill`, { waitUntil: "networkidle0" })
+        await page.waitForSelector(".invoice", { timeout: 10000 })
+
+        const filePath = path.join(
+            __dirname,
+            `../invoices/invoice-${req.params.order_ID}.pdf`
+        )
+
+        await page.pdf({
+            path: filePath,
+            format: "A4",
+            printBackground: true,
+            preferCSSPageSize: true
+        })
+
+        await browser.close()
+
+        await uploadInvoiceToDrive(
+            filePath,
+            `invoice-${req.params.order_ID}.pdf`
+        )
+
+        await sendWhatsAppInvoice(
+            `91${orderData.customer_num}`,
+            orderData.customer_name,
+            orderData.final_total
+        )
+
+        // NOW DELETE DRAFT (OPTION B)
+        await draft_model.deleteMany({})
+
+        res.setHeader("Content-Type", "application/pdf")
+        res.setHeader(
+            "Content-Disposition",
+            `attachment; filename=invoice-${req.params.order_ID}.pdf`
+        )
+
+        return res.sendFile(filePath)
+
+    } catch (postErr) {
+
+        console.error("Post-Commit Error (PDF/WhatsApp):", postErr)
+
+        // DB already safe — do NOT abort anything
+        return res.status(500).send("Invoice Generated But Delivery Failed")
+    }
 })
+
+
 
 /****************************************************
  * ROUTE: BILL PAGE RENDER
  ****************************************************/
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
+    console.log("Draft count:", await draft_model.countDocuments());
     draft_model.find({})
         .then(data => {
-            const orderData = data[0].orderObject
+            console.log(data[0])
+            const orderData = data[0]?.orderObject
+            if (!orderData) {
+                return res.status(404).send("No draft order available")
+            }
             res.render("admin/bill", {
                 "display": "Order Confirmation Page",
                 orderData
+
+
             })
         })
 })

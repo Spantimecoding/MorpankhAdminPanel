@@ -72,7 +72,7 @@ a .sidebar-items {
     position: fixed;
     margin-left: var(--sidebar-width);
     z-index:2;
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-sm);
 
   
 }

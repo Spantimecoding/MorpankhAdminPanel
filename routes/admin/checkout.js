@@ -10,23 +10,18 @@ router.get("/", async (req,res)=>{
     res.render("admin/checkout",{"display":"Checkout",data,tax_data,invoice_data})
 })
 
-router.post("/orderConfirmation/:order_id",async(req,res)=>{
+router.post("/orderConfirmation/:order_id", async (req, res) => {
     try {
-        draft_model.deleteMany({})
-        .then(
-            draft_model.create({
-            orderObject:req.body
-        })
-        .then(res=>{
-            console.log(`Draft Order Object Created for Order ID : ${req.params.order_id} `)
-        })
-            
-        )
+        await draft_model.deleteMany({})
+        await draft_model.create({ orderObject: req.body })
+
+        console.log(`Draft Order Object Created for Order ID : ${req.params.order_id} `)
         console.log(`Order data received for id : ${req.params.order_id}`, req.body)
-        res.json({success: true, message: "Order completed successfully"})
-    } catch(err) {
+
+        res.json({ success: true, message: "Order completed successfully" })
+    } catch (err) {
         console.log(err)
-        res.status(500).json({success: false, message: "Error processing order"})
+        res.status(500).json({ success: false, message: "Error processing order" })
     }
 })
 

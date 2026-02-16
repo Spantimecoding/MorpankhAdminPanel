@@ -11,7 +11,7 @@
     width: 100% - var(--sidebar-width);
     height: 100vh;
     gap: -2rem;
-    padding: 1rem;
+    padding: 0.3rem 1rem;
 }
 .search-and-add{
     display: flex;
