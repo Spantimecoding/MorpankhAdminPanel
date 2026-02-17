@@ -29,8 +29,8 @@ router.post("/login", loginLimiter, async (req, res) => {
     const { username, password } = req.body;
 
     if (
-        (username === process.env.USERNAME_1 &&password === process.env.PASSWORD_1)||
-        (username === process.env.USERNAME_2 &&password === process.env.PASSWORD_2)
+        (username === process.env.USERNAME_1&&password === process.env.PASSWORD_1)||
+        (username === process.env.USERNAME_2&&password === process.env.PASSWORD_2)
     ) {
         req.session.admin = username;
         console.log(`Authentication Success: ${username}`);
