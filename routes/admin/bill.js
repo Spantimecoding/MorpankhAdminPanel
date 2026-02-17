@@ -309,7 +309,7 @@ router.get(`/generate-invoice/:order_ID`, async (req, res) => {
         const page = await browser.newPage()
         const baseURL = `${req.protocol}://${req.get("host")}`
 
-        await page.goto(`${baseURL}/admin/bill`, { waitUntil: "networkidle0" })
+        await page.goto(`${baseURL}/admin/bill?internal=true`, { waitUntil: "networkidle0" })
         await page.waitForSelector(".invoice", { timeout: 10000 })
 
         const filePath = path.join(

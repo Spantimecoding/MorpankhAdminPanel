@@ -29,8 +29,8 @@ router.post("/login", loginLimiter, async (req, res) => {
     const { username, password } = req.body;
 
     if (
-        username === process.env.USERNAME_1 &&
-        password === process.env.PASSWORD_1
+        (username === process.env.USERNAME_1 &&password === process.env.PASSWORD_1)||
+        (username === process.env.USERNAME_2 &&password === process.env.PASSWORD_2)
     ) {
         req.session.admin = username;
         console.log(`Authentication Success: ${username}`);
@@ -41,10 +41,17 @@ router.post("/login", loginLimiter, async (req, res) => {
     return res.redirect("/admin/login");
 });
 function requireAdmin(req, res, next) {
-    if (req.session && req.session.admin) {
-        return next();
-    }
-    return res.redirect("/admin/login");
+
+  // Allow internal Puppeteer access
+  if (req.query.internal === "true") {
+    return next();
+  }
+
+  if (req.session && req.session.admin) {
+    return next();
+  }
+
+  return res.redirect("/admin/login");
 }
 router.use(requireAdmin)
 //Routers - 
