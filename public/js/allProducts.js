@@ -21,7 +21,7 @@ if (searchFromUrl) {
 searchInput.addEventListener("change", () => {
   const value = searchInput.value.trim();
   if (!value) return;
-  const url = `/admin/products?search=${encodeURIComponent(value)}&page=${page}`;
+  const url = `/admin/products/allProducts?search=${encodeURIComponent(value)}&page=${page}`;
   // store LAST orders URL
   localStorage.setItem("products_last_url", url);
 
