@@ -26,7 +26,7 @@ searchInput.addEventListener("change", () => {
   localStorage.setItem("products_last_url", url);
 
   window.location.href =
-    `/admin/products?page=${page}&search=${encodeURIComponent(value)}`;
+    `/admin/products/allProducts?page=${page}&search=${encodeURIComponent(value)}`;
 });
 const next = document.querySelector("#next")
 
@@ -36,7 +36,7 @@ next.addEventListener("click",()=>{
   const search = params.get("search") || "";
   page++; // move to next page
   document.querySelector(".page-num").textContent = page
-  window.location.href = `/admin/products?page=${page}&search=${encodeURIComponent(search)}`;
+  window.location.href = `/admin/products/allProducts?page=${page}&search=${encodeURIComponent(search)}`;
 
 })
 const prev = document.querySelector("#prev")
@@ -53,6 +53,6 @@ prev.addEventListener("click",()=>{
     page--
       document.querySelector(".page-num").textContent = page
   } // move to next page
-  window.location.href = `/admin/products?page=${page}&search=${search}`;
+  window.location.href = `/admin/products/allProducts?page=${page}&search=${search}`;
 
 })
