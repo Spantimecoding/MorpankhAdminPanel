@@ -11,19 +11,18 @@ const mongoose = require("./config/database")
 app.set("view engine","ejs")
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(
-  session({
-    name: "sid",                 // cookie name
-    secret: process.env.SESSION_SECRET,  // change in prod
+app.set("trust proxy", 1);
+app.use(session({
+    name: "sid",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
-      httpOnly: true,
-      secure:true,
-      maxAge: 1000 * 60 * 60     // 1 hour
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 1000 * 60 * 60
     }
-  })
-);
+}));
 app.get("/", (req, res) => {
   res.redirect("/admin");
 })
