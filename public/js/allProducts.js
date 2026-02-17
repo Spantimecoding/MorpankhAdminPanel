@@ -7,7 +7,7 @@ console.log(dataset)
 
 const searchInput = document.querySelector("#searchBox");
 
-// 1️⃣ Restore from URL (on page load)
+// Restore from URL (on page load)
 const params = new URLSearchParams(window.location.search);
 const searchFromUrl = params.get("search");
 let page = parseInt(params.get("page")) || 1;
