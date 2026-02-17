@@ -2,6 +2,7 @@
 const {product_model,tax_model,invoice_model,draft_model} = require("../../config/database")
 const router = express.Router()
 router.get("/", async (req,res)=>{
+    
     const data = await product_model.find().lean()
     const tax_data = await tax_model.find().lean()
     const invoice_data = await invoice_model.find()

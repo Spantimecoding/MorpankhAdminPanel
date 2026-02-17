@@ -105,6 +105,10 @@ async function sendWhatsAppInvoice(customerPhone, customerName, totalAmount) {
  * ROUTE: GENERATE INVOICE
  ****************************************************/
 router.get(`/generate-invoice/:order_ID`, async (req, res) => {
+    if(!req.session.admin){
+         return res.redirect("/admin/login")
+        
+    }
 
     const mongoose = require("mongoose")
     const session = await mongoose.startSession()

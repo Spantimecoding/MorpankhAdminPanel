@@ -7,9 +7,9 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-      "start": "node index.js",
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "postinstall": "npx puppeteer browsers install chrome --path=./.local-chromium"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npx puppeteer browsers install chrome --path=./.local-chromium"
   },
   "dependencies": {
     "axios": "^1.13.2",
@@ -17,6 +17,7 @@
     "dotenv": "^17.3.1",
     "ejs": "^3.1.10",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
     "express-session": "^1.18.2",
     "mongoose": "^9.0.2",
     "nanoid": "^5.1.6",
@@ -25,5 +26,4 @@
     "twilio": "^5.12.1",
     "uuid": "^13.0.0"
   }
-  
 }

@@ -1,8 +1,52 @@
 const express = require("express")
 const router = express.Router()
+require("dotenv").config()
 const {product_model,dash_model} = require("../../config/database")
 const confirmation = require("./add")
+const rateLimit = require("express-rate-limit");
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 min
+  max: 5,                   // 5 attempts
+  message: "Too many login attempts. Try again later."
+});
+router.get("/login",async (req,res)=>{
+    if(req.session.admin){
+        res.redirect("/admin")
+    }
+    else{
+        res.render("admin/login")
 
+    }
+})
+router.get("/logout",async (req,res)=>{
+    if(req.session.admin){
+        req.session.admin = null
+        console.dir(`User Authentication State : False `)
+        res.redirect("/admin/login")
+    }
+})
+router.post("/login", loginLimiter, async (req, res) => {
+    const { username, password } = req.body;
+
+    if (
+        username === process.env.USERNAME_1 &&
+        password === process.env.PASSWORD_1
+    ) {
+        req.session.admin = username;
+        console.log(`Authentication Success: ${username}`);
+        return res.redirect("/admin");
+    }
+
+    console.log("Authentication Failed");
+    return res.redirect("/admin/login");
+});
+function requireAdmin(req, res, next) {
+    if (req.session && req.session.admin) {
+        return next();
+    }
+    return res.redirect("/admin/login");
+}
+router.use(requireAdmin)
 //Routers - 
 router.use("/products/edit",require("./product_show"))
 router.use("/products/add",require("./add"))
@@ -13,10 +57,13 @@ router.use("/bill",require("./bill"))
 router.use("/checkout",require('./checkout'))
 router.use("/products/delete",require("./delete"))
 router.use("/products/update",require("./update"))
-
 //Render Dashboard
 router.get("/", async (req,res)=>{
     try{
+        if(!req.session.admin){
+         return res.redirect("/admin/login")
+        
+    }
 
         const dashData = await dash_model.findOne({})
 

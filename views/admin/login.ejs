@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../partials/links") %>
+    <meta charset="UTF-8">
+    <link href="/css/login.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="https://res.cloudinary.com/dt5ceiwwh/image/upload/v1766501182/6319c186-916a-4179-91a3-befc584a8959.png">
+    <div class="login-box">
+        <div class="wrapper">
+                  <div class="head-1">Morpankh Admin</div>
+                  <div class="head-2">Please Login in to Access Portal</div>
+                  <form action="/admin/login" method="post">
+                    <div class="item">
+                        <label for="username">Username</label>
+                        <input type="text" class="inpt" id="username" name="username">
+                    </div>
+                    <div class="item">
+                        <label for="password">Password</label>
+                        <input type="text" class="inpt" id="password" name="password">
+                    </div>
+                    <button class="login-bt"><i data-lucide="log-in"></i>Login</button>
+                  </form>
+
+        </div>
+  
+    </div>
+    <script src="/js/login.js"></script>
+</body>
+</html>

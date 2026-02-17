@@ -2,6 +2,7 @@
 const express = require("express")
 const session = require("express-session");
 const app = express()
+require("dotenv").config()
 
 //Mongoose Connection
 const mongoose = require("./config/database")
@@ -13,19 +14,21 @@ app.use(express.urlencoded({ extended: true }))
 app.use(
   session({
     name: "sid",                 // cookie name
-    secret: "super_secret_key",  // change in prod
+    secret: process.env.SESSION_SECRET,  // change in prod
     resave: false,
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
+      secure:true,
       maxAge: 1000 * 60 * 60     // 1 hour
     }
   })
 );
-app.use("/admin",require("./routes/admin/index"))
-app.use(express.static("public"))
 app.get("/", (req, res) => {
   res.redirect("/admin");
-});
+})
+app.use("/admin",require("./routes/admin/index"))
+app.use(express.static("public"))
+
 //Exports - 
 module.exports = app

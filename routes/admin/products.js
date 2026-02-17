@@ -64,7 +64,7 @@ function buildQuery(search) {
 }
 
 // Route
-router.get("/allProducts", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const search = req.query.search || "";
         let page = parseInt(req.query.page) || 1;
