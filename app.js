@@ -11,6 +11,7 @@ const mongoose = require("./config/database")
 app.set("view engine","ejs")
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+const isProduction = process.env.NODE_ENV === "production"
 app.set("trust proxy", 1);
 app.use(session({
     name: "sid",
@@ -19,7 +20,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: isProduction,
         maxAge: 1000 * 60 * 60
     }
 }));

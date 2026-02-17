@@ -283,27 +283,33 @@ router.get(`/generate-invoice/:order_ID`, async (req, res) => {
      ************************************************/
 
     try {
-        const fs = require("fs")
-        const chromeBasePath = path.join(process.cwd(), ".local-chromium", "chrome")
-
-        const chromeFolder = fs.readdirSync(chromeBasePath)
-        .find(folder => folder.startsWith("linux-"))
-
-        const executablePath = path.join(
-        chromeBasePath,
-        chromeFolder,
-        "chrome-linux64",
-        "chrome"
-        )
-        const browser = await puppeteer.launch({
+        let launchOptions = {
             headless: "new",
-            executablePath,
             args: [
                 "--no-sandbox",
                 "--disable-setuid-sandbox",
                 "--disable-dev-shm-usage"
             ]
-            })
+            };
+
+            if (process.env.NODE_ENV === "production") {
+            const fs = require("fs");
+            const chromeBasePath = path.join(process.cwd(), ".local-chromium", "chrome");
+
+            const chromeFolder = fs
+                .readdirSync(chromeBasePath)
+                .find(folder => folder.startsWith("linux-"));
+
+            launchOptions.executablePath = path.join(
+                chromeBasePath,
+                chromeFolder,
+                "chrome-linux64",
+                "chrome"
+            );
+            }
+
+            const browser = await puppeteer.launch(launchOptions);
+
 
 
         const page = await browser.newPage()
