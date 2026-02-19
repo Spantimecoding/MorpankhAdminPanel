@@ -3,6 +3,9 @@ body,html{
     padding:0;
     background-color: var(--clr-bg-website);
 }
+body::-webkit-scrollbar {
+  display: none;
+}
 .add-form{
     display: flex;
     flex-direction: column;

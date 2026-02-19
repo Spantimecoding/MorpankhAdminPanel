@@ -6,6 +6,9 @@
     height: 110vh;
     padding: 1rem;
 }
+body::-webkit-scrollbar {
+  display: none;
+}
 .order-table{
     border-collapse: separate;
     border-spacing: 0;

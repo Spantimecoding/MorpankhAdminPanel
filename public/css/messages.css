@@ -1,0 +1,104 @@
+body{
+    background-color: var(--clr-bg-website);
+}
+.comms-layout{
+        display: flex;
+    flex-direction: column;
+    margin-left:var(--sidebar-width);
+    margin-top:var(--topbar-height);
+    height: 100vh;
+    padding: 1rem;
+}
+.group{
+    display: flex;
+    flex-direction: row;
+}
+.audience-section{
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-s) var(--space-l);
+    border-radius: 5px;
+    width: 95%;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    padding: var(--space-m);
+    border-radius: 5px;
+    width: 90%;
+    margin-bottom: var(--space-l);
+
+}
+.section-grp{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    gap: var(--space-l);
+    justify-content: space-between;
+}
+.group{
+    display: flex;
+    border-radius: 5px;
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-m) var(--space-xl);
+    background-color: var(--clr-bg-card);
+    flex-direction: column;
+    width: 97%;
+}
+.sub-head{
+        font-family: var(--font-head);
+    font-size: var(--space-l);
+    margin-bottom: var(--space-3xs);
+    font-weight: 600;
+
+}
+.message-icon{
+    margin-right: var(--space-sm);
+    position: relative;
+    top: 2px;
+}
+.header{
+    font-family: var(--font-head);
+    font-size: var(--space-xl);
+    margin-bottom: var(--space-l);
+    font-weight: 600;
+}
+label{
+    font-family: var(--font-body);
+    font-size: var(--space-m);
+    color: var(--clr-txt-muted);
+    font-weight: bold;
+    display: block;
+    margin-bottom: var(--space-xs);
+}
+input{
+    appearance: none;
+    padding: var(--space-m);
+    font-family: var(--font-head);
+    font-weight: 400;
+    background-color: var(--clr-bg-card);
+    border: 1px solid var(--clr-border-light);
+    border-radius: 10px;
+    width: 90%;
+}
+input:focus{
+    outline: none;
+}
+button{
+    font-family: var(--font-head);
+    padding: var(--space-m) var(--space-l);
+    width: 45%;
+    cursor: pointer;
+    margin-top: var(--space-sm);
+    font-size: var(--space-m);
+    border-radius: 5px;
+    border: none;
+    transition: 0.7s;
+    color: var(--clr-txt-inv);
+    background-color: var(--clr-action);
+}
+button:hover{
+    transform: translateY(-3px);
+    background-color: var(--clr-head);
+}

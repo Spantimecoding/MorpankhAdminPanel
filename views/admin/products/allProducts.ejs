@@ -20,10 +20,11 @@
                                 <input type="text" id="searchBox" placeholder="Enter Search Query">
                         </div>
                         <div class="item-count"></div>
-                        <button class="compact"><i data-lucide="grid-3x3" class="add-icon" style="margin: auto;"></i></button>
+                        <button class="compact"id="barcode-print"><i data-lucide="printer" class="add-icon" style="margin: auto;"></i></button>
+                         <button class="compact"><i data-lucide="grid-3x3" class="add-icon" style="margin: auto;"></i></button>
 
 
-                        <button class="add-button"><a href="/admin/products/add" class="add-anchor"><i data-lucide="file-plus-corner" class="add-icon"></i></a></button>
+                        <button class="compact"><a href="/admin/products/add" class="add-anchor"><i data-lucide="file-plus-corner" class="add-icon" style="position: relative; left: 4px;"></i></a></button>
                 </div>
                   <%if(data.length == 0){%>
                 <div class="empty-msg">

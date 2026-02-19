@@ -3,6 +3,9 @@
     padding: 0;
     background-color: var(--clr-bg-website);
 }
+body::-webkit-scrollbar {
+  display: none;
+}
 .products-layout{
     display: flex;
     flex-direction: column;
@@ -75,30 +78,19 @@ input:focus{
     text-align: center;
     position: relative;
 }
-.add-button::before{
-    position: absolute;
-    left: 1px;
-    top: 0px;
-    overflow: hidden;
-    border-radius: var(--rad-s);
-    content: "";
-    width: 0;
-    height:42px;
-    background-color:var(--clr-head);
-    z-index: -1;
-    transition: 0.4s;
 
-}
-.add-button:hover::before{
-    width: 100%;
+.add-button:hover{
+    background-color: var(--clr-head);
 }
 .add-icon{
     position: relative;
     top: 3px;
     left: 1px;
     margin-right: var(--space-xs);
+    color: var(--clr-txt-inv);
     width: 21px;
     height: 21px;
+    transition: 0.7s;
     overflow: hidden;
 }
 .add-anchor{
@@ -108,7 +100,7 @@ input:focus{
 .product-grid{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 35px;
+    gap: 37px;
     padding-top: 20px;
     padding-bottom: var(--space-l);
 }
@@ -197,7 +189,17 @@ input:focus{
     border: none;
     border-radius: 3px;
     padding: var(--space-xs);
+    background-color: var(--clr-action);
     width: 6%;
+    cursor: pointer;
+    transition: 0.5s;
+}
+.compact:hover{
+    background-color: var(--clr-head);
+    color: var(--clr-txt-inv);
+}
+.compact:hover .add-icon{
+    color: var(--clr-txt-inv);
 }
 .empty-msg{
     margin: var(--space-4xl) auto;

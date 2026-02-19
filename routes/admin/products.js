@@ -13,9 +13,9 @@ router.get("/regenerate/:barcode", async (req, res) => {
     const png = await bwip.toBuffer({
       bcid: "code128",
       text: barcode,
-      scale: 4,
-      height: 25,
-      includetext: true,
+      scale: 2,
+      height: 14,
+      includetext: true,        
       textxalign: "center",
     });
 
@@ -95,5 +95,35 @@ router.get("/allProducts", async (req, res) => {
         });
     }
 });
+router.get("/barcodePrint",async(req,res)=>{
+     try {
+        const search = req.query.search || "";
+        let page = parseInt(req.query.page) || 1;
+        const limit = 20;
+
+        if (page < 1) page = 1;
+
+        const skip = (page - 1) * limit;
+
+        const dbQuery = buildQuery(search);
+
+        const products = await product_model
+            .find(dbQuery)
+            .skip(skip)
+            .limit(limit)
+            .lean(); // cleaner output
+
+        return res.render("barcode_print", {products});
+
+    } catch (err) {
+        console.error("Barcode Print Page Error:", err);
+        return res.status(500).render("error-page", {
+            message: "Something went wrong."
+        });
+    }
+
+
+})
 //Exports - 
 module.exports = router
+

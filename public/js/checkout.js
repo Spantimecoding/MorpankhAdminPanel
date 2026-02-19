@@ -715,7 +715,7 @@ purchase.addEventListener("click",()=>{
 })
 function numToWord() {
     // ---------- FINAL TOTAL (RupeES + PAISE) ----------
-    const total = Number(full_order_information.final_total);
+    const total = Math.round(Number(full_order_information.final_total));
 
     const rupees = Math.floor(total);
     const paise = Math.round((total - rupees) * 100);

@@ -22,6 +22,7 @@ if(dataset[0].category == "sarees"){
             <label for="design"> Saree Design</label>
             <select id="design" name="sareeDesign">
                 <option value="${dataset[0].attributes.sareeDesign}">${dataset[0].attributes.sareeDesign}</option>
+                <option value="plain">Plain</option>
                     <optgroup label = "Embroidery">
                         <option value="zari">Zari Work</option>
                         <option value="kantha">Kantha</option>
@@ -228,6 +229,7 @@ if(dataset[0].category == "sarees"){
                     <label for="blouse-pattern">Blouse Design</label>
                     <select id="blouse-pattern" name="blouseDesign">
                        <option value="${dataset[0].attributes.blouseDesign}">${dataset[0].attributes.blouseDesign}</option>
+                              <option value="plain">Plain</option>
                     <optgroup label = "Embroidery">
                         <option value="zari">Zari Work</option>
                         <option value="kantha">Kantha</option>
@@ -529,6 +531,7 @@ if(dataset[0].category == "sarees"){
                     <label for="readymadedesign">Design</label>
                 <select id="readymadedesign" name="readymadeDesign">
                    <option value="${dataset[0].attributes.readymadeDesign}">${dataset[0].attributes.readymadeDesign}</option>
+                   <option value="plain">Plain</option>
                     <optgroup label = "Embroidery">
                         <option value="zari">Zari Work</option>
                         <option value="kantha">Kantha</option>
@@ -802,6 +805,7 @@ if(dataset[0].category == "sarees"){
                         <label for="blouse-pattern">Blouse Design</label>
                         <select id="blouse-pattern" name="blouseDesign">
                             <option value="${dataset[0].attributes.blouseDesign}">${dataset[0].attributes.blouseDesign}</option>
+                            <option value="plain">Plain</option>
                         <optgroup label = "Embroidery">
                             <option value="zari">Zari Work</option>
                             <option value="kantha">Kantha</option>
@@ -999,6 +1003,7 @@ if(dataset[0].category == "sarees"){
             <label for="wrap-pattern">Design Type of wrap</label>
             <select id="wrap-pattern" name="wrapDesign">
                 <option value="${dataset[0].attributes.wrapDesign}">${dataset[0].attributes.wrapDesign}</option>
+                <option value="plain">Plain</option>
                     <optgroup label = "Embroidery">
                         <option value="zari">Zari Work</option>
                         <option value="kantha">Kantha</option>

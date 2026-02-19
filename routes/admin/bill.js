@@ -340,7 +340,7 @@ router.get(`/generate-invoice/:order_ID`, async (req, res) => {
         await sendWhatsAppInvoice(
             `91${orderData.customer_num}`,
             orderData.customer_name,
-            orderData.final_total
+            Math.round(orderData.final_total)
         )
 
         // NOW DELETE DRAFT (OPTION B)

@@ -18,13 +18,19 @@
         <div class="status-group">
             <div class="form-item">
                         <label for="payment">Payment Status</label>
-                        <select id="payment">
+                        <%if(orderData.paymentInfo.paymentStatus == "paid"){%>
+                            <input type="text" id="payment" readonly value="paid" style="width: 92%;">
+                        <%}else{%>
+                            <select id="payment">
                             <option value="<%=orderData.paymentInfo.paymentStatus%>"><%=orderData.paymentInfo.paymentStatus%></option>
                             <option value="semiPaid">Semi-Paid</option>
                             <option value="paid">Paid</option>
                             <option value="payLater">Pay Later</option>
                             <option value="refunded">Refunded</option>
                         </select>
+                            
+                            <%}%>
+                        
 
             </div>
             <div class="form-item">

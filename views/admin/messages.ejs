@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <%- include("../partials/links") %>
+    <link href="/css/messages.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        localStorage.setItem("display", "<%=display%>")
+        console.log(localStorage.getItem("display"))
+    </script>
+    <%- include("../partials/adminNav")%>
+    <div class="comms-layout">
+            <div class="audience-section">
+                <div class="header"><i data-lucide="users" class="message-icon"></i>Audience Management</div>
+                <div class="section-grp">
+                    <div class="group">
+                        <div class="sub-head">Group Creation</div>
+                        <form action="/admin/messages/groupCreation">
+                            <div class="form-item">
+                                <label for="group-name">Group Name</label>
+                                <input type="text" name="groupName" id="group-name" required placeholder="Enter Group Name">
+                            </div>
+                            <div class="form-item">
+                                <label for="group-tags">Group Tags</label>
+                                <input type="text" name="groupTags" id="group-tags" required placeholder="Enter Group Tags">
+                            </div>
+                            <button>Create Group</button>
+                        </form>
+                    </div>
+                    <div class="group">
+                        <div class="sub-head">Add Client</div>
+
+                    </div>
+                </div>
+        </div>
+    <script>lucide.createIcons()</script>
+</body>
+</html>

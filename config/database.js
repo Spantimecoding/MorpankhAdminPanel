@@ -36,6 +36,9 @@ productSchema = new mongoose.Schema({
         required:true,
         min: 0
     },
+    mrp:{
+      type:Number
+    },
     material:{
         type:String,
         required:true
@@ -69,22 +72,14 @@ const taxSchema = new mongoose.Schema({
     type:String,
     required:true
   },
-  slabs: [
-    {
-      min: {
-        type: Number,
-        required: true
-      },
-      max: {
-        type: Number,
-        default: null
-      },
-      gstRate: {
-        type: Number,
-        required: true
-      }
-    }
-  ]
+  gstRate1:{
+    type:Number,
+    required:true
+  },
+  gstRate2:{
+    type:Number,
+    required:true
+  }
 });
 const orderSchema = new mongoose.Schema({
 

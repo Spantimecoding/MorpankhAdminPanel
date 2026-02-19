@@ -56,3 +56,9 @@ prev.addEventListener("click",()=>{
   window.location.href = `/admin/products/allProducts?page=${page}&search=${search}`;
 
 })
+//Barcode Print
+const barcodePrint = document.querySelector("#barcode-print")
+barcodePrint.addEventListener("click",()=>{
+  const search = params.get("search") || "";
+  window.location.href = `/admin/products/barcodePrint?page=${page}&search=${encodeURIComponent(search)}`
+})

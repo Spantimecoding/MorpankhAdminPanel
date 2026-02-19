@@ -1,6 +1,10 @@
 body{
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+}
+body::-webkit-scrollbar {
+  display: none;
 }
 .login-box{
     background-color: var(--clr-bg-website);
@@ -12,9 +16,12 @@ img{
     object-fit: cover;
     width: 50%;
     height: 100vh;
+    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2));
+    box-shadow: var(--shadow-sm);
 }
 .wrapper{
     display: flex;
+    border: 1px solid var(--clr-border-light);
     flex-direction: column;
     margin: auto;
     background-color: var(--clr-bg-card);

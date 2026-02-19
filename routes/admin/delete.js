@@ -28,7 +28,7 @@ router.get("/:id", async (req,res)=>{
         console.log("Product Deleted ID : ",id)
         console.log(result)
 
-        return res.redirect("../")
+        return res.redirect("/admin/products/allProducts?page=1&&search=all")
 
     }catch(err){
         console.error("Product Delete Route Error:",err)

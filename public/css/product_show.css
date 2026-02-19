@@ -1,6 +1,9 @@
 body{
     background-color: var(--clr-bg-website);
 }
+body::-webkit-scrollbar {
+  display: none;
+}
 .product-layout{
     display: flex;
     flex-direction: column;

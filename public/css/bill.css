@@ -9,6 +9,9 @@
     padding: 1rem;
     min-height: fit-content;
 }
+body::-webkit-scrollbar {
+  display: none;
+}
 .invoice {
   max-width: 850px;
   border: 1px solid #000;

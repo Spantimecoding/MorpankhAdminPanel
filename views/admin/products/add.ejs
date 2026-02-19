@@ -61,7 +61,7 @@
                 <div class="input-row">
 
                     <div class="form-item">
-                        <label for="price">Price</label>
+                        <label for="price">Unit Cost</label>
                         <input type="number" id="price" name="price" placeholder="Enter Product Price" required>
                     </div>
 
@@ -133,7 +133,15 @@
                     </div>
                        <div class="form-item">
                             <label for="hsnCode">Product HSN Code</label>
-                            <input type="number" id="hsnCode" name="hsnCode" placeholder="Enter Product HSN Code" required>
+                            <select id="hsnCode" name="hsnCode">
+                                <option value="">Select HSN</option>
+                                <option value="5007">Silk [5007]</option>
+                                <option value="5208">Cotton [5208]</option>
+                                <option value="5112">Wool [5112]</option>
+                                <option value="5516">Viscoce [5516]</option>
+                                <option value="5310">Jute [5310]</option>
+
+                            </select>
                         </div>
             </div>
 
@@ -160,6 +168,7 @@
                             <label for="saree-design">Design of Saree</label>
                             <select id="saree-design" name="sareeDesign">
                                 <option value="">Select category</option>
+                                <option value="plain">Plain</option>
                                 <optgroup label = "Embroidery">
                                     <option value="zari">Zari Work</option>
                                     <option value="kantha">Kantha</option>
@@ -428,6 +437,7 @@
                             <label for="blouse-pattern">Blouse Design</label>
                             <select id="blouse-pattern" name="blouseDesign">
                                 <option value="">Select category</option>
+                                <option value="plain">Plain</option>
                                 <optgroup label = "Embroidery">
                                     <option value="zari">Zari Work</option>
                                     <option value="kantha">Kantha</option>
@@ -692,6 +702,7 @@
                         <label for="readymadeDesign">Design</label>
                         <select id="readymadeDesign" name="readymadeDesign">
                             <option value="">Select category</option>
+                                <option value="plain">Plain</option>
                                 <optgroup label = "Embroidery">
                                     <option value="zari">Zari Work</option>
                                     <option value="kantha">Kantha</option>
@@ -959,6 +970,7 @@
                             <label for="wrap-pattern">Design Type of wrap</label>
                             <select id="wrap-pattern" name="wrapDesign">
                                 <option value="">Select category</option>
+                                <option value="plain">Plain</option>
                                 <optgroup label = "Embroidery">
                                     <option value="zari">Zari Work</option>
                                     <option value="kantha">Kantha</option>
@@ -1166,6 +1178,7 @@
                             <label for="blouse-pattern">Design Type of Blouse</label>
                             <select id="blouse-pattern" name="blouseDesign">
                                 <option value="">Select category</option>
+                                <option value="plain">Plain</option>
                                 <optgroup label = "Embroidery">
                                     <option value="zari">Zari Work</option>
                                     <option value="kantha">Kantha</option>

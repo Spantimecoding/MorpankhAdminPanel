@@ -47,7 +47,7 @@ function requireAdmin(req, res, next) {
     return next();
   }
 
-  if (req.session && req.session.admin) {
+  if ((req.session && req.session.admin)) {
     return next();
   }
 
@@ -58,6 +58,7 @@ router.use(requireAdmin)
 router.use("/products/edit",require("./product_show"))
 router.use("/products/add",require("./add"))
 router.use("/products",require("./products"))
+router.use("/messages",require("./messages"))
 router.use("/users",require("./users"))
 router.use("/orders",require("./orders"))
 router.use("/bill",require("./bill"))

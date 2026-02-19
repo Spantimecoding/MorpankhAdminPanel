@@ -1,6 +1,6 @@
 const express = require("express")
 const bwip = require("bwip-js")
-const {product_model,dash_model,alert_model} = require("../../config/database")
+const {product_model,dash_model,alert_model,tax_model} = require("../../config/database")
 const mongoose = require("mongoose")
 const router = express.Router()
 const { v4: uuidv4 } = require("uuid")
@@ -24,26 +24,14 @@ router.post("/data", async (req,res)=>{
     try{
 
         function generateBarcodeNum() {
-            const time = Date.now()
-            const rand = Math.floor(Math.random() * 1000)
-            return `${time}${rand}`
+               const time = Date.now().toString().slice(-10)
+                const rand = Math.floor(Math.random() * 10000)
+            .toString()
+            .padStart(4, '0')
+            return time + rand
         }
 
         const barcodeNum = generateBarcodeNum()
-
-        async function generateBarcodeImage(code) {
-            const png = await bwip.toBuffer({
-                bcid: 'code128',
-                text: code,
-                scale: 4,
-                height: 25, 
-                includetext: true,
-                textxalign: 'center',
-            })
-            return png
-        }
-
-        const barcodeImage = await generateBarcodeImage(barcodeNum)
 
         if(!req.body.name){
             throw new Error("Product name missing")
@@ -145,6 +133,46 @@ router.post("/data", async (req,res)=>{
                 "jewelleryWeight":req.body.jewelleryWeight
             }
         }
+        //MRP To Base price -
+        const taxset = await tax_model.find({}) 
+        const tax_slab_shift = 2500
+        function removeGSTFromProduct(reqBody){
+
+            const taxInfo = taxset.find(y => String(y.hsnCode) === String(reqBody.hsnCode))
+
+            if(!taxInfo){
+                console.warn("Missing tax info for HSN", reqBody.hsnCode);
+                return null;
+            }
+            console.log(taxInfo)
+
+            let rate = taxInfo  .gstRate1;
+
+            // SAME slab logic as gstCalc
+            if(!(reqBody.category == "sarees" || 
+                reqBody.category == "stoles" || 
+                reqBody.category == "dupattas")){
+
+                if(Number(reqBody.price) > tax_slab_shift && taxInfo.gstRate2){
+                    rate = taxInfo.gstRate2;
+                }
+            }
+
+            const inclusive = Number(reqBody.price);
+
+            const base = inclusive / (1 + rate/100);
+            const roundedBase = Number(base.toFixed(2));
+
+            const gstAmount = Number((inclusive - roundedBase).toFixed(2));
+
+            return {
+                base_price: roundedBase,
+                gst_rate: rate,
+                extracted_gst: gstAmount
+            };
+        }
+        const gstResult = removeGSTFromProduct(req.body);
+
 
         // ----- Database Insert -----
 
@@ -155,7 +183,8 @@ router.post("/data", async (req,res)=>{
             hsnCode:req.body.hsnCode,
             category:req.body.category,
             description:req.body.description,
-            price:req.body.price,
+            price:Number(gstResult.base_price),
+            mrp:req.body.price,
             material:req.body.material,
             stock:req.body.stock,
             images:[
@@ -184,12 +213,7 @@ router.post("/data", async (req,res)=>{
 
         req.session.confirmation = `Name : ${req.body.name}`
 
-        res.writeHead(200, {
-            'Content-Type': 'image/png',
-            'Content-Disposition': `attachment; filename="barcode-${barcodeNum}.png"`,
-        })
-
-        return res.end(barcodeImage)
+       res.redirect("/admin/products/allProducts?page=1&search=all")
 
     }catch(err){
 
