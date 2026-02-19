@@ -57,7 +57,13 @@
 
 <% } %>
 <script>
-    window.print()
+    window.onload = function () {
+    window.print();
+
+    window.onafterprint = function () {
+        window.location.href = "/admin/products/allProducts?page=1&search=all";
+    };
+};
     </script>
 
 

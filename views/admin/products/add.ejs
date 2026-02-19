@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Document</title>
+    <title>Add Form</title>
 
 </head>
 
@@ -40,7 +40,7 @@
 
                     <div class="form-item">
                         <label for="name">Name</label>
-                        <input type="text" id="name" name="name" placeholder="Enter Product Name" required>
+                        <input type="text" id="name" name="name" placeholder="Material - Design - Category - Add Ons" required>
                     </div>
 
                     <div class="form-item">
@@ -61,7 +61,7 @@
                 <div class="input-row">
 
                     <div class="form-item">
-                        <label for="price">Unit Cost</label>
+                        <label for="price">GST Included Price</label>
                         <input type="number" id="price" name="price" placeholder="Enter Product Price" required>
                     </div>
 
@@ -137,7 +137,9 @@
                                 <option value="">Select HSN</option>
                                 <option value="5007">Silk [5007]</option>
                                 <option value="5208">Cotton [5208]</option>
-                                <option value="5112">Wool [5112]</option>
+                                <option value="5112">Wool [5112]</option>   
+                                <option value="5309">Linen [5309]</option>
+                                <option value="5407">Modal [5407]</option>
                                 <option value="5516">Viscoce [5516]</option>
                                 <option value="5310">Jute [5310]</option>
 
@@ -157,11 +159,11 @@
 
                         <div class="form-item">
                             <label for="saree-length">Saree Length</label>
-                            <input type="text" id="saree-length" name="sareeLength" placeholder="Enter Length of Saree (meters)" required>
+                            <input type="text" id="saree-length" name="sareeLength" placeholder="Enter Length of Saree (Meters)" required>
                         </div>
                         <div class="form-item">
                             <label for="saree-width">Saree Width</label>
-                            <input type="text" id="saree-width" name="sareeWidth" placeholder="Enter width of Saree (meters)" required>
+                            <input type="text" id="saree-width" name="sareeWidth" placeholder="Enter width of Saree (Inches)" required>
                         </div>
 
                         <div class="form-item">
@@ -559,6 +561,7 @@
                             <label for="blouse-sleeve">Sleeve Type of Blouse</label>
                             <select id="blouse-sleeve" name="blouseSleeve">
                                 <option value="">Select category</option>
+                                <option value="notRequired">Not Required</option>
                                 <option value="sleeveless">Sleeveless</option>
                                 <option value="cap-sleeve">Cap Sleeve</option>
                                 <option value="short-sleeve">Short Sleeve</option>
@@ -590,6 +593,7 @@
                             <label for="blouse-sleeve">Sleeve Type of Blouse</label>
                             <select id="blouse-sleeve" name="blouseSleeve">
                                 <option value="">Select category</option>
+                                <option value="notRequired">Not Required</option>
                                 <option value="sleeveless">Sleeveless</option>
                                 <option value="cap-sleeve">Cap Sleeve</option>
                                 <option value="short-sleeve">Short Sleeve</option>
@@ -604,6 +608,7 @@
                         <div class="form-item">
                             <label for="blouse-clouse">Closure Type</label>
                             <select id="blouse-closure" name="blouseClosure">
+                                <option value="notRequired">Not Required</option>
                                 <option value="">Select Category</option>
                                 <option value="backHooks">Back Hooks</option>
                                 <option value="frontHooks">Front Hooks</option>
@@ -617,6 +622,7 @@
                             <label for="blouse-back">Back Type</label>
                             <select id="blouse-back" name="blouseBack">
                                 <option value="">Select back style</option>
+                                <option value="notRequired">Not Required</option>
                                 <option value="closedBack">Closed Back</option>
                                 <option value="highBack">High Back</option>
                                 <option value="buttonedBack">Buttoned Back</option>
@@ -910,6 +916,7 @@
                             <label for="blouse-clouse">Closure Type</label>
                             <select id="blouse-closure" name="readymadeBlouseClosure">
                                 <option value="">Select Category</option>
+                                <option value="notRequired">Not Required</option>
                                 <option value="backHooks">Back Hooks</option>
                                 <option value="frontHooks">Front Hooks</option>
                                 <option value="tieUp">Tie-up Back (Dori)</option>
@@ -922,6 +929,7 @@
                             <label for="blouse-back">Back Type</label>
                             <select id="blouse-back" name="readymadeBlouseBack">
                                 <option value="">Select back style</option>
+                                <option value="notRequired">Not Required</option>
                                 <option value="closedBack">Closed Back</option>
                                 <option value="highBack">High Back</option>
                                 <option value="buttonedBack">Buttoned Back</option>
@@ -955,12 +963,12 @@
 
                     <div class="form-item">
                         <label for="wrap-length">Length of Wrap</label>
-                        <input type="text" id="wrap-length" name="wrapLength" placeholder="Enter Length of Wrap (meters)" required>
+                        <input type="text" id="wrap-length" name="wrapLength" placeholder="Enter Length of Wrap (Meters)" required>
                     </div>
 
                     <div class="form-item">
                         <label for="wrap-width">Width of Wrap</label>
-                        <input type="text" id="wrap-width" name="wrapWidth" placeholder="Enter Width of Wrap (meters)" required>
+                        <input type="text" id="wrap-width" name="wrapWidth" placeholder="Enter Width of Wrap (Inches)" required>
                     </div>
                 </div>
                 <div class="input-row">
@@ -1329,17 +1337,18 @@
 
                         <div class="form-item">
                             <label for="blouse-chest">Chest Size of Blouse</label>
-                            <input type="text" id="blouse-chest" name="blouseChest" placeholder="Enter Chest Size of Blouse" required>
+                            <input type="text" id="blouse-chest" name="blouseChest" placeholder="Enter Chest Size of Blouse (Inches)" required>
                         </div>
 
                         <div class="form-item">
                             <label for="blouse-length">Length of Blouse</label>
-                            <input type="text" id="blouse-length" name="blouseLength" placeholder="Enter Length of Blouse" required>
+                            <input type="text" id="blouse-length" name="blouseLength" placeholder="Enter Length of Blouse (Inches)" required>
                         </div>
                         <div class="form-item">
                             <label for="blouse-sleeve">Sleeve Type of Blouse</label>
                             <select id="blouse-sleeve" name="blouseSleeve">
                                 <option value="">Select category</option>
+                                <option value="notRequired">Not Required</option>
                                 <option value="sleeveless">Sleeveless</option>
                                 <option value="cap-sleeve">Cap Sleeve</option>
                                 <option value="short-sleeve">Short Sleeve</option>
@@ -1356,7 +1365,7 @@
                     <div class="input-row">
                         <div class="form-item">
                             <label for="blouse-length">Length of Blouse</label>
-                            <input type="text" id="blouse-length" name="blouseLength" placeholder="Enter Length of Blouse (meters)" required>
+                            <input type="text" id="blouse-length" name="blouseLength" placeholder="Enter Length of Blouse (Inches)" required>
                         </div>
                     </div>
 
@@ -1394,7 +1403,7 @@
 
                     <div class="form-item">
                         <label for="image2">Image 2</label>
-                        <input type="text" id="image2" name="image2" placeholder="Enter Image URL" required>
+                        <input type="text" id="image2" name="image2" placeholder="Enter Image URL">
                     </div>
 
                 </div>
@@ -1403,12 +1412,12 @@
 
                     <div class="form-item">
                         <label for="image3">Image 3</label>
-                        <input type="text" id="image3" name="image3" placeholder="Enter Image URL" required>
+                        <input type="text" id="image3" name="image3" placeholder="Enter Image URL">
                     </div>
 
                     <div class="form-item">
                         <label for="image4">Image 4</label>
-                        <input type="text" id="image4" name="image4" placeholder="Enter Image URL" required>
+                        <input type="text" id="image4" name="image4" placeholder="Enter Image URL">
                     </div>
 
                 </div>
@@ -1416,12 +1425,12 @@
 
                     <div class="form-item">
                         <label for="image5">Image 5</label>
-                        <input type="text" id="image5" name="image5" placeholder="Enter Image URL" required>
+                        <input type="text" id="image5" name="image5" placeholder="Enter Image URL">
                     </div>
 
                     <div class="form-item">
                         <label for="image6">Image 6</label>
-                        <input type="text" id="image5" name="image6" placeholder="Enter Image URL" required>
+                        <input type="text" id="image5" name="image6" placeholder="Enter Image URL">
                     </div>
 
                 </div>
