@@ -22,6 +22,7 @@ This system is tailored to the business logic and workflow of Morpankh Dezine.
 - Full CRUD operations for products
 - Stock tracking and updates
 - Inventory health monitoring
+- Barcode generation in bulk
 
 ### Order System
 - Barcode scanner-enabled checkout
@@ -85,15 +86,24 @@ Not designed as a reusable template.
 Not intended for public deployment without modification.
 
 ## Website Screenshots 
-<img width="1892" height="898" alt="image" src="https://github.com/user-attachments/assets/3ab36b5b-8ab7-4130-8541-efe8457d12b8" />
+<img width="1919" height="895" alt="image" src="https://github.com/user-attachments/assets/6b569c13-9e0a-44e9-a2ab-867b3199e614" />
 
 ---
 
-<img width="1893" height="899" alt="image" src="https://github.com/user-attachments/assets/34651a7b-a04c-4735-a8c3-d7e17b16a324" />
+<img width="1918" height="894" alt="image" src="https://github.com/user-attachments/assets/f2475c69-2242-41b4-9d90-bc4e3a34a0b7" />
 
 ---
 
-<img width="1891" height="893" alt="image" src="https://github.com/user-attachments/assets/b83d4322-50a2-403d-b58d-d599b61e3f87" />
+<img width="1917" height="895" alt="image" src="https://github.com/user-attachments/assets/a38a9377-458c-4c54-af3f-9bb1d098ac05" />
+
+---
+
+<img width="1919" height="895" alt="image" src="https://github.com/user-attachments/assets/49903f4f-62d1-4927-ac4a-552d7f96feb6" />
+
+---
+
+<img width="1919" height="896" alt="image" src="https://github.com/user-attachments/assets/e8e65cc5-cadf-4b05-a764-354d2220e04c" />
+
 
 
 
