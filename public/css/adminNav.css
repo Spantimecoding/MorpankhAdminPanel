@@ -70,11 +70,36 @@ a .sidebar-items {
     border-bottom: 1px solid rgb(197, 196, 196);
     width: 100vw;
     position: fixed;
+    display: flex;
+    flex-direction: row;
     margin-left: var(--sidebar-width);
     z-index:2;
-    box-shadow: var(--shadow-sm);
+    justify-content: space-between;
+    box-shadow: var(--shadow-sm);  
+}
+.account{
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+}
+.acc-name{
+    position: relative;
+    right: 280px;
+    font-weight: 500;
+    font-family: var(--font-head);
+    font-size: var(--space-l);
+    padding-top: var(--space-l);
 
-  
+}
+.acc-img{
+    width: 45px;
+    height: 45px;
+    position: relative;
+    right: 220px;
+    top: 14px;
+    box-shadow: var(--shadow-sm);
+    border-radius: 23px;
+    object-fit: cover;
 }
 .topbar-text{
     font-family: var(--font-head);

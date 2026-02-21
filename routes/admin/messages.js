@@ -4,7 +4,7 @@ const path = require("path")
 require("dotenv").config()
 router.get("/", async (req,res)=>{
     try{
-         return res.render("admin/messages",{display:"Communications"})
+         return res.render("admin/messages",{display:"Communications", userDP:req.session.adminDP})
     }catch(err){
         console.dir("Error while Loading Page")
         console.dir(err)

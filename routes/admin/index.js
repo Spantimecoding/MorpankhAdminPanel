@@ -28,15 +28,29 @@ router.get("/logout",async (req,res)=>{
 router.post("/login", loginLimiter, async (req, res) => {
     const { username, password } = req.body;
 
-    if (
-        (username === process.env.USERNAME_1&&password === process.env.PASSWORD_1)||
-        (username === process.env.USERNAME_2&&password === process.env.PASSWORD_2)
-    ) {
+    if (username === process.env.USERNAME_1&&password === process.env.PASSWORD_1) {
         req.session.admin = username;
+        req.session.loginType = "admin";
+        req.session.adminDP = "https://res.cloudinary.com/dt5ceiwwh/image/upload/v1771655419/IMG-20251025-WA0013_ofr015.jpg"
         console.log(`Authentication Success: ${username}`);
+         console.log(`Access Type: ADMIN`);
         return res.redirect("/admin");
-    }
+    }else if(username === process.env.USERNAME_2&&password === process.env.PASSWORD_2){
+        req.session.admin = username;
+        req.session.loginType = "admin";
+        req.session.adminDP = "https://res.cloudinary.com/dt5ceiwwh/image/upload/v1771654356/facebook_1765175603364_7403683093893339562_llluhq.jpg"
+        console.log(`Authentication Success: ${username}`);
+         console.log(`Access Type: ADMIN`);
+        return res.redirect("/admin");
+    }else if(username === process.env.CASHIER_1_USERNAME&&password === process.env.CASHIER_1_PASSWORD){
+        req.session.admin = username;
+        req.session.loginType = "cashier";
+        req.session.adminDP = "https://res.cloudinary.com/dt5ceiwwh/image/upload/v1771654356/facebook_1765175603364_7403683093893339562_llluhq.jpg"
+        console.log(`Authentication Success: ${username}`);
+        console.log(`Access Type: CASHIER`);
+        return res.redirect("/admin");
 
+    }
     console.log("Authentication Failed");
     return res.redirect("/admin/login");
 });
@@ -135,7 +149,10 @@ router.get("/", async (req,res)=>{
 
         return res.render("admin/dashboard",{
             display:" Dashboard",
-            dashData
+            dashData,
+            user:req.session.admin,
+            userDP:req.session.adminDP,
+            loginType:req.session.loginType
         })
 
     }catch(err){

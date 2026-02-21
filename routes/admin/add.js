@@ -9,7 +9,7 @@ router.use(express.urlencoded({ extended: true }))
 
 router.get("/", async (req,res)=>{
     try{
-        return res.render("admin/products/add",{"display":"Add Product"})
+        return res.render("admin/products/add",{"display":"Add Product",userDP:req.session.adminDP})
     }catch(err){
         console.error("Add Product Page Error:",err)
         return res.status(500).send("Internal Server Error")

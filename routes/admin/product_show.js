@@ -29,6 +29,7 @@ router.get("/:id", async (req, res) => {
         return res.render("admin/products/product_show", {
             display: data[0].name,
             data,
+            userDP:req.session.adminDP,
             new_alert
         });
 

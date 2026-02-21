@@ -8,7 +8,7 @@ router.get("/", async (req,res)=>{
     const invoice_data = await invoice_model.find()
     console.log(tax_data)
     console.log(data)
-    res.render("admin/checkout",{"display":"Checkout",data,tax_data,invoice_data})
+    res.render("admin/checkout",{"display":"Checkout",data,tax_data,invoice_data, userDP:req.session.adminDP})
 })
 
 router.post("/orderConfirmation/:order_id", async (req, res) => {

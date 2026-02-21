@@ -154,7 +154,8 @@ router.get("/orderPage/:orderID", async (req,res)=>{
 
         return res.render("admin/order_show",{
             display:`Order : ${orderData.invoiceNumber}`,
-            orderData
+            orderData,
+            userDP:req.session.adminDP
         })
 
     }catch(err){
@@ -260,7 +261,8 @@ router.get("/", async (req,res)=>{
 
         return res.render("admin/orders",{
             display:"Order History",
-            data
+            data,
+             userDP:req.session.adminDP
         })
 
     }catch(err){

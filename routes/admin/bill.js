@@ -379,7 +379,8 @@ router.get("/", async (req, res) => {
             }
             res.render("admin/bill", {
                 "display": "Order Confirmation Page",
-                orderData
+                orderData,
+                 userDP:req.session.adminDP
 
 
             })

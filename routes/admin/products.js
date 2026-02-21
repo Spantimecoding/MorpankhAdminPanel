@@ -85,7 +85,8 @@ router.get("/allProducts", async (req, res) => {
         return res.render("admin/products/allProducts", {
             display: "Products",
             data: products,
-            currentPage: page
+            currentPage: page,
+            userDP:req.session.adminDP
         });
 
     } catch (err) {
