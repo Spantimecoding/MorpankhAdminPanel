@@ -48,6 +48,17 @@ This system is tailored to the business logic and workflow of Morpankh Dezine.
 - Session based route protection
 - Environment variable-based secret management
 
+### Querying System
+Robust keyword–value based filtering across products and orders.
+
+**Supported Filters :**
+- Date (order / payment / delivery / restock)
+- Payment (status, method, transaction ID, invoice)
+- Order (status, ID, customer, value range)
+- Product (category, design, variants)
+- Inventory (stock level, quantity range)
+- Operational (barcode print, label, dispatch status)
+
 ---
 
 ## Tech Stack
