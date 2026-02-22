@@ -180,6 +180,7 @@ router.post("/data", async (req,res)=>{
             name:req.body.name,
             id:new_id,
             barcode:barcodeNum,
+            barcodePrintCount:0,
             hsnCode:req.body.hsnCode,
             category:req.body.category,
             description:req.body.description,

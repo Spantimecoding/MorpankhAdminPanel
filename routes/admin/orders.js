@@ -206,7 +206,7 @@ router.get("/", async (req,res)=>{
 
         const search = req.query.search || ""
         let page = parseInt(req.query.page) || 1
-        const limit = 30
+        const limit = 50
 
         if(page < 1) page = 1
 

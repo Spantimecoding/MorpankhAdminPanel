@@ -2,12 +2,12 @@ body{
     background-color: var(--clr-bg-website);
 }
 .comms-layout{
-        display: flex;
+    display: flex;
     flex-direction: column;
     margin-left:var(--sidebar-width);
     margin-top:var(--topbar-height);
     height: 100vh;
-    padding: 1rem;
+    padding: 0.7rem 1rem;
 }
 .group{
     display: flex;
@@ -25,7 +25,6 @@ form{
     flex-direction: column;
     gap: var(--space-m);
     padding: var(--space-m);
-    border-radius: 5px;
     width: 90%;
     margin-bottom: var(--space-l);
 
@@ -47,10 +46,12 @@ form{
     width: 97%;
 }
 .sub-head{
-        font-family: var(--font-head);
+    font-family: var(--font-head);
     font-size: var(--space-l);
     margin-bottom: var(--space-3xs);
     font-weight: 600;
+    padding-bottom: var(--space-s);
+
 
 }
 .message-icon{
@@ -63,6 +64,8 @@ form{
     font-size: var(--space-xl);
     margin-bottom: var(--space-l);
     font-weight: 600;
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--clr-border-light);
 }
 label{
     font-family: var(--font-body);
@@ -82,23 +85,79 @@ input{
     border-radius: 10px;
     width: 90%;
 }
-input:focus{
+select{
+    padding: var(--space-m);
+    font-family: var(--font-head);
+    font-weight: 400;
+    background-color: var(--clr-bg-card);
+    border: 1px solid var(--clr-border-light);
+    border-radius: 10px;
+    width: 70%;
+
+}
+input:focus,select:focus{
     outline: none;
+}
+.icon{
+    color: var(--clr-txt-inv);
 }
 button{
     font-family: var(--font-head);
-    padding: var(--space-m) var(--space-l);
-    width: 45%;
+    padding: var(--space-m) var(--space-m);
+    width: fit-content;
     cursor: pointer;
     margin-top: var(--space-sm);
-    font-size: var(--space-m);
+    font-size: var(--space-sm);
     border-radius: 5px;
     border: none;
     transition: 0.7s;
     color: var(--clr-txt-inv);
     background-color: var(--clr-action);
 }
+.confirm-box{
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-l) var(--space-4xl);
+    text-align: center;
+    background-color: white ;
+    align-items: center;
+    width: 40%;
+    border-radius: 5px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--clr-border-light);
+    justify-content: center;
+    position: relative;
+    bottom: 450px;
+    margin: auto;
+     display: none;
+}
+.confirm-box span{
+    font-family: var(--font-head);
+    font-weight: bold;
+}
 button:hover{
     transform: translateY(-3px);
     background-color: var(--clr-head);
+}
+.confirm,.back{
+    padding: var(--space-s) 0rem;
+    width: 30%;
+}
+.back{
+    background-color: grey;
+}
+.button-group{
+    display: flex;
+    margin-top: var(--space-m);
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--space-m);
+}
+.hide{
+    display: none;
+}
+.blur{
+filter: blur(5px);
+user-select: none;
+
 }

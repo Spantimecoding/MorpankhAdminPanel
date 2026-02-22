@@ -34,6 +34,24 @@ router.get("/regenerate/:barcode", async (req, res) => {
 });
 
 // Helper: Build Mongo Query
+function getDateRange(type) {
+            const now = new Date();
+            let start, end;
+
+            const startOfDay = d =>
+                new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
+            if (type === "tdy") {
+                start = startOfDay(now);
+                end = new Date(start);
+                end.setDate(end.getDate() + 1);
+            }
+
+            if (!start || !end) return null;
+
+            return { $gte: start, $lt: end };
+        }
+
 function buildQuery(search) {
     if (!search || search === "all") {
         return {};
@@ -46,8 +64,11 @@ function buildQuery(search) {
         stk: "stock",
         nm: "name",
         cat: "category",
+        mat:"material",
         hsn: "hsnCode",
-        bd: "barcode"
+        bd: "barcode",
+        dt:"dateCreated",
+        prt:"barcodePrintCount"
     };
 
     for (let i = 0; i < split.length; i += 2) {
@@ -56,6 +77,13 @@ function buildQuery(search) {
 
         const dbField = Qmap[key];
         if (!dbField || !value) continue;
+         if(key === "dt"){
+            const range = getDateRange(value)
+            if(range){
+                dbQuery[dbField] = range
+            }
+            continue
+        }
 
         dbQuery[dbField] = value;
     }
@@ -68,7 +96,7 @@ router.get("/allProducts", async (req, res) => {
     try {
         const search = req.query.search || "";
         let page = parseInt(req.query.page) || 1;
-        const limit = 20;
+        const limit = 50;
 
         if (page < 1) page = 1;
 
@@ -122,6 +150,30 @@ router.get("/barcodePrint",async(req,res)=>{
             message: "Something went wrong."
         });
     }
+})
+router.get("/updatePrintCount",async (req,res)=>{
+    const search = req.query.search || "";
+        let page = parseInt(req.query.page) || 1;
+        const limit = 20;
+
+        if (page < 1) page = 1;
+
+        const skip = (page - 1) * limit;
+
+        const dbQuery = buildQuery(search);
+
+        const products = await product_model
+            .find(dbQuery)
+            .skip(skip)
+            .limit(limit)
+            .lean(); // cleaner output
+        const idArray = products.map(product => product._id);
+        await product_model.updateMany(
+        { _id: { $in: idArray } },
+        { $inc: { barcodePrintCount: 1 } }
+        );
+        return res.redirect("/admin/products/allProducts?page=1&&search=all")
+
 
 
 })

@@ -14,29 +14,69 @@
     </script>
     <%- include("../partials/adminNav")%>
     <div class="comms-layout">
-            <div class="audience-section">
+            <div class="group-and-message">
                 <div class="header"><i data-lucide="users" class="message-icon"></i>Audience Management</div>
                 <div class="section-grp">
                     <div class="group">
-                        <div class="sub-head">Group Creation</div>
+                        <div class="sub-head"><i data-lucide="boxes" class="message-icon"></i>Group Creation</div>
                         <form action="/admin/messages/groupCreation">
                             <div class="form-item">
                                 <label for="group-name">Group Name</label>
                                 <input type="text" name="groupName" id="group-name" required placeholder="Enter Group Name">
                             </div>
-                            <div class="form-item">
-                                <label for="group-tags">Group Tags</label>
-                                <input type="text" name="groupTags" id="group-tags" required placeholder="Enter Group Tags">
+                            <div class="button-group" style="justify-content: start; margin-top:0;">
+                                <button><i data-lucide="plus" class="icon"></i>Create Group</button>    
+
                             </div>
-                            <button>Create Group</button>
+
                         </form>
                     </div>
                     <div class="group">
-                        <div class="sub-head">Add Client</div>
+                        <div class="sub-head"><i data-lucide="mail" class="message-icon"></i>Client Communication</div>
+                        <form class="client-add-form" action="/admin/messages/clientAdd">
+                            <div class="form-item">
+                                <label for="messageType">Message Type</label>
+                                <select name="messageType" id="messageType">
+                                    <option value="">Select Message Type</option>
+                                    <option value="single">Single</option>
+                                    <option value="bulk">Bulk</option>
+                                </select>
+                            </div>
+                            <div class="form-item" id="group-box-message">
+                                <label for="groupName">Group</label>
+                                <select name="groupName" id="group-name-message">
+                                    <option value="">Select Group</option>
+                                </select>
+                            </div>
+                            <div class="form-item">
+                                <label for="template">Template</label>
+                                <select name="template" id="template">
+                                    <option value="">Select Template</option>
+                                </select>
+                            </div>
+                            <div class="form-item" id="client-box">
+                                <label for="clientNum">Client Number</label>
+                                <input type="text" name="clientNum" id="clientNum" required placeholder="Enter Client Number">
+                            </div>
+                            <button id="message-send" type="button"><i data-lucide="send-horizontal" class="icon" style="color: var(--clr-txt-inv)"></i>Send Message</button>
+                        </form>
 
                     </div>
                 </div>
-        </div>
+                </div>
+                <div class="confirm-box">
+                    <span class="confirm-txt">Are you sure you want to send this message ?</span>
+                    <div class="button-group">
+                    <button class="confirm">Confirm</button>
+                    <button class="back">Go Back</button>
+
+
+                    </div>
+
+                </div>
+            </div>
+        
     <script>lucide.createIcons()</script>
+    <script src="/js/messages.js"></script>
 </body>
 </html>

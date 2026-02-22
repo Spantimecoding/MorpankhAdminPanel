@@ -61,7 +61,7 @@ function requireAdmin(req, res, next) {
     return next();
   }
 
-  if ((req.session && req.session.admin)) {
+  if (((req.session && req.session.admin))) {
     return next();
   }
 

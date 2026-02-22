@@ -17,8 +17,12 @@ productSchema = new mongoose.Schema({
     },
     barcode:{
         type:String,
-        required:true
+        required:true,
+        unique:true
     },
+    barcodePrintCount:{
+      type:Number
+    },  
     hsnCode:{
         type:Number,
         required:true
@@ -89,7 +93,8 @@ const orderSchema = new mongoose.Schema({
     unique: true
   },
   invoiceNumber:{
-    type:String
+    type:String,
+    unique:true
   },
 
   date: {
