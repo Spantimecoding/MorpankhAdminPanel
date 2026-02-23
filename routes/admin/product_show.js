@@ -30,6 +30,7 @@ router.get("/:id", async (req, res) => {
             display: data[0].name,
             data,
             userDP:req.session.adminDP,
+            loginType:req.session.loginType,
             new_alert
         });
 

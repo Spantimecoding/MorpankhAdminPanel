@@ -42,12 +42,12 @@ router.post("/login", loginLimiter, async (req, res) => {
         console.log(`Authentication Success: ${username}`);
          console.log(`Access Type: ADMIN`);
         return res.redirect("/admin");
-    }else if(username === process.env.CASHIER_1_USERNAME&&password === process.env.CASHIER_1_PASSWORD){
+    }else if(username === process.env.secondary_1_USERNAME&&password === process.env.secondary_1_PASSWORD){
         req.session.admin = username;
-        req.session.loginType = "cashier";
+        req.session.loginType = "secondary";
         req.session.adminDP = "https://res.cloudinary.com/dt5ceiwwh/image/upload/v1771654356/facebook_1765175603364_7403683093893339562_llluhq.jpg"
         console.log(`Authentication Success: ${username}`);
-        console.log(`Access Type: CASHIER`);
+        console.log(`Access Type: Secondary`);
         return res.redirect("/admin");
 
     }

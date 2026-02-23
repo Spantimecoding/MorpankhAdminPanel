@@ -1198,7 +1198,7 @@ form.innerHTML +=
 <div class = "buttonGroup">
 <a class ="barcode-button" href = "/admin/products/regenerate/${dataset[0].barcode}" id = "barcode"><i data-lucide="scan-barcode" class = "save_icon"></i>Barcode</a>
 <button class = "change-button"><i data-lucide="save" class = "save_icon"></i>Save</button> 
-<a href="/admin/products/delete/${dataset[0].id}" class="buttonDelete" id="delete"><i data-lucide="x" class = "save_icon" style = "margin-right:0;"></i> Delete</a>
+<a  class="buttonDelete" id="delete"><i data-lucide="x" class = "save_icon" style = "margin-right:0;"></i> Delete</a>
 </div>
 `
 const fields = form.querySelectorAll("input");
@@ -1211,4 +1211,27 @@ fields.forEach(x=>{
 document.querySelector(".barcode-button")
 .addEventListener("click",()=>{
     window.showAlert("success","Product Barcode Generated")
+})
+document.querySelector(".buttonDelete").addEventListener("click",()=>{
+    const dataform = document.querySelector(".dataForm")
+    dataform.classList.add("blur")
+    const confirmBox = document.querySelector(".confirm-box")
+    confirmBox.style.display = "block"
+    
+})
+document.querySelector(".confirm").addEventListener("click",()=>{
+    if(window.loginType == "admin"){
+        window.location.href = `/admin/products/delete/${dataset[0].id}`
+
+    }else{
+        window.showAlert("warning","Only Admin has Deletion Access")
+    }
+
+})
+document.querySelector(".back").addEventListener("click",()=>{
+    const dataform = document.querySelector(".dataForm")
+    dataform.classList.remove("blur")
+    const confirmBox = document.querySelector(".confirm-box")
+    confirmBox.style.display = "none"
+
 })

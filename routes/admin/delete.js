@@ -11,24 +11,23 @@ router.get("/:id", async (req,res)=>{
             return res.status(400).send("Invalid Product ID")
         }
 
-        const result = await product_model.deleteOne({id:id})
+        if(req.session.loginType == "admin"){
+            const result = await product_model.deleteOne({id:id})
+            
+            if(result.deletedCount === 0){
+                return res.status(404).send("Product not found")
+            }
 
-        if(result.deletedCount === 0){
-            return res.status(404).send("Product not found")
+            console.log("Product Deleted ID : ",id)
+            console.log(result)
+
+            return res.redirect("/admin/products/allProducts?page=1&&search=all")
+
+        }else{
+            return res.redirect(`/admin/products/edit/${id}`)
+
         }
 
-        await dash_model.updateMany({},{
-            $inc:{"adminSeshActions.productDeleted":1},
-            $set:{
-                "adminSeshActions.message":`Product : ${id} Deleted`,
-                "adminSeshActions.messageHead":"Product Deletion"
-            }
-        })
-
-        console.log("Product Deleted ID : ",id)
-        console.log(result)
-
-        return res.redirect("/admin/products/allProducts?page=1&&search=all")
 
     }catch(err){
         console.error("Product Delete Route Error:",err)

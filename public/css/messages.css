@@ -117,41 +117,53 @@ button{
 .confirm-box{
     display: flex;
     flex-direction: column;
-    padding: var(--space-l) var(--space-4xl);
-    text-align: center;
+    padding: var(--space-l) var(--space-xl);
     background-color: white ;
-    align-items: center;
-    width: 40%;
+    width: 30%;
     border-radius: 5px;
+    display: none;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--clr-border-light);
-    justify-content: center;
-    position: relative;
-    bottom: 450px;
+      position: fixed;              /* NOT relative */
+        top: 200px;
+        left: 500px;
     margin: auto;
-     display: none;
 }
-.confirm-box span{
+.conf-head{
     font-family: var(--font-head);
-    font-weight: bold;
+    font-size: var(--space-l);
+    border-bottom: 1px solid var(--clr-border-light);
+    padding-bottom: var(--space-s);
+}
+.conf-txt{
+    font-family: var(--font-head);
+    padding-top: var(--space-s);
+}
+.confirm{
+      padding: var(--space-s) 0rem;
+    width: 20%;
+    background-color: rgba(146, 3, 3, 0.888);
+  
+}
+.back{
+    background-color: white;
+    border: 1px solid var(--clr-border-light);
+    padding: var(--space-s) 0rem;
+    width: 20%;
+    color: var(--clr-txt-body);
 }
 button:hover{
     transform: translateY(-3px);
     background-color: var(--clr-head);
-}
-.confirm,.back{
-    padding: var(--space-s) 0rem;
-    width: 30%;
-}
-.back{
-    background-color: grey;
+    color: var(--clr-txt-inv);
 }
 .button-group{
     display: flex;
     margin-top: var(--space-m);
     flex-direction: row;
-    justify-content: center;
-    gap: var(--space-m);
+    width: 100%;
+    justify-content: flex-end;
+    gap: var(--space-s);
 }
 .hide{
     display: none;
@@ -160,4 +172,7 @@ button:hover{
 filter: blur(5px);
 user-select: none;
 
+}
+.icon{
+    color: var(--clr-txt-body);
 }

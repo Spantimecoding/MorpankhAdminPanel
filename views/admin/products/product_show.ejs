@@ -29,7 +29,7 @@
                 <img src="<%=product.images[5]%>" class="image">
             </div>
             <div class="header">Product Details</div>
-            <form method="post" action="/admin/products/update">
+            <form method="post" class="dataForm" action="/admin/products/update">
                 <div class="input-row">
 
                     <div class="form-item">
@@ -156,6 +156,15 @@
             </div>
 
             </form>
+                <div class="confirm-box">
+                    <div class="conf-head"><i data-lucide="circle-alert" class="icon" style="width: 20px; height: 20px;"></i>Product Deletion</div>
+                    <div class="conf-txt">Are you sure u want to delete this product?</div>
+                    <div class="button-group">
+                    <button class="confirm">Confirm</button>
+                    <button class="back">Close</button>
+                    </div>
+
+                </div>
             <% } %>
      </div>
 
@@ -164,6 +173,7 @@
      <script>
         window.dataset = <%- JSON.stringify(data) %>;
         window.newAlert = "<%=new_alert%>"
+        window.loginType = "<%=loginType%>"
      </script>
     <script src="/js/product_show.js"></script>
     <script>
