@@ -1,6 +1,6 @@
 //Query Filter Code - 
 const itemCount = document.querySelector(".item-count")
-itemCount.textContent = `Showing ${dataset.length} items`
+itemCount.textContent = `${dataset.length} Products`
 
 
 console.log(dataset)

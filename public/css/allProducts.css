@@ -56,8 +56,8 @@ input:focus{
 .item-count{
     padding: var(--space-xs);
     text-align: center;
-    margin: auto;
-    height: 25px;
+    align-items: center;
+    height: fit-content;
     color: var(--clr-txt-muted);
     border-radius: 5px;
     width: 19%;
@@ -85,7 +85,7 @@ input:focus{
 .add-icon{
     position: relative;
     top: 3px;
-    left: 1px;
+    left: 0;
     margin-right: var(--space-xs);
     color: var(--clr-txt-inv);
     width: 21px;

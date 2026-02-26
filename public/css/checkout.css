@@ -48,6 +48,7 @@ input{
     background-color: var(--clr-bg-subcard);
     width: 80%;
     font-size: var(--space-m);
+    
 }
 input:focus{
     outline: none;

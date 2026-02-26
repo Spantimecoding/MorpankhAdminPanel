@@ -43,6 +43,9 @@ productSchema = new mongoose.Schema({
     mrp:{
       type:Number
     },
+    state:{
+      type:String
+    },
     material:{
         type:String,
         required:true

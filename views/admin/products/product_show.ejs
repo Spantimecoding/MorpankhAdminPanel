@@ -59,7 +59,14 @@
                     <div class="form-item">
                         <label for="hsn">Product HSN Code</label>
                         <input type="text" id="hsn" name="hsnCode" value="<%=product.hsnCode%>" readonly>
-
+                    </div>
+                    <div class="form-item">
+                        <label for="state">Product State</label>
+                        <select id="state" name="state">
+                            <option value="<%=product.state%>"><%=product.state%></option>
+                            <option value="active">Active</option>
+                            <option value="archived">Archived</option>
+                        </select>
                     </div>
 
                 </div>

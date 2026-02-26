@@ -51,7 +51,7 @@ function getDateRange(type) {
 
             return { $gte: start, $lt: end };
         }
-
+let arcSearch = ""
 function buildQuery(search) {
     if (!search || search === "all") {
         return {};
@@ -68,7 +68,8 @@ function buildQuery(search) {
         hsn: "hsnCode",
         bd: "barcode",
         dt:"dateCreated",
-        prt:"barcodePrintCount"
+        prt:"barcodePrintCount",
+        arc:"state"
     };
 
     for (let i = 0; i < split.length; i += 2) {
@@ -83,6 +84,10 @@ function buildQuery(search) {
                 dbQuery[dbField] = range
             }
             continue
+        }else if(key === "arc"){
+            arcSearch=value
+        }else{
+            arcSearch = "active"
         }
 
         dbQuery[dbField] = value;
@@ -103,6 +108,7 @@ router.get("/allProducts", async (req, res) => {
         const skip = (page - 1) * limit;
 
         const dbQuery = buildQuery(search);
+        dbQuery.state = {$ne:"archived"} 
 
         const products = await product_model
             .find(dbQuery)

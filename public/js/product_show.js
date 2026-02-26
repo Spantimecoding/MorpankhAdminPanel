@@ -1,4 +1,5 @@
 dataset = window.dataset
+let modal_mode = ""
 console.log(dataset)
 console.log(window.newAlert)
 if(window.newAlert === "true"){
@@ -1213,6 +1214,7 @@ document.querySelector(".barcode-button")
     window.showAlert("success","Product Barcode Generated")
 })
 document.querySelector(".buttonDelete").addEventListener("click",()=>{
+    modal_mode = "delete"
     const dataform = document.querySelector(".dataForm")
     dataform.classList.add("blur")
     const confirmBox = document.querySelector(".confirm-box")
@@ -1220,12 +1222,43 @@ document.querySelector(".buttonDelete").addEventListener("click",()=>{
     
 })
 document.querySelector(".confirm").addEventListener("click",()=>{
-    if(window.loginType == "admin"){
+    if(modal_mode == "delete"){
+            if(window.loginType == "admin"){
         window.location.href = `/admin/products/delete/${dataset[0].id}`
 
     }else{
         window.showAlert("warning","Only Admin has Deletion Access")
     }
+    }else if(modal_mode == "archive"){
+        const dataform = document.querySelector(".dataForm")
+        dataform.classList.remove("blur")
+        const confirmBox = document.querySelector(".confirm-box")
+        confirmBox.style.display = "none"
+        const stateBox = document.querySelector("#state")
+        prev_state = stateBox.value
+
+    }
+
+
+})
+const stateBox = document.querySelector("#state")
+let prev_state = stateBox.value
+stateBox.addEventListener("change",()=>{
+    if(prev_state == "active"){
+        const confirmBox = document.querySelector(".confirm-box")
+        document.querySelector(".conf-head").textContent = "Archive Confirmation"
+        document.querySelector(".conf-txt").textContent = "Are you sure you want to archive this product?"
+        confirmBox.style.display = "block"
+    }else if(prev_state == "archived"){
+        const confirmBox = document.querySelector(".confirm-box")
+        document.querySelector(".conf-head").textContent = "Unarchive Confirmation"
+        document.querySelector(".conf-txt").textContent = "Are you sure you want to unarchive this product?"
+        confirmBox.style.display = "block"
+
+    }
+    modal_mode = "archive"
+    const dataform = document.querySelector(".dataForm")
+    dataform.classList.add("blur")
 
 })
 document.querySelector(".back").addEventListener("click",()=>{
@@ -1233,5 +1266,10 @@ document.querySelector(".back").addEventListener("click",()=>{
     dataform.classList.remove("blur")
     const confirmBox = document.querySelector(".confirm-box")
     confirmBox.style.display = "none"
+    const state = document.querySelector("#state")
+    state.value = prev_state
+
 
 })
+
+

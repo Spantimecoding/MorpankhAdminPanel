@@ -182,6 +182,7 @@ router.post("/data", async (req,res)=>{
             barcode:barcodeNum,
             barcodePrintCount:0,
             hsnCode:req.body.hsnCode,
+            state:"Active",
             category:req.body.category,
             description:req.body.description,
             price:Number(gstResult.base_price),
