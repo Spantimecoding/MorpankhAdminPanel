@@ -1,6 +1,6 @@
 const express = require("express")
 const bwip = require("bwip-js")
-const {product_model,dash_model,alert_model,tax_model} = require("../../config/database")
+const {product_model,dash_model,alert_model,tax_model,audit_model} = require("../../config/database")
 const mongoose = require("mongoose")
 const router = express.Router()
 const { v4: uuidv4 } = require("uuid")
@@ -207,8 +207,15 @@ router.post("/data", async (req,res)=>{
                 "adminSeshActions.messageHead":"Product Addition"
             }
         }, { session })
+        await audit_model.insertOne({
+                    actionUser:req.session.admin,
+                    actionType:"Product Addition",
+                    actionTarget:`${barcodeNum}`
+        
+        },{session})
 
         await alert_model.updateOne({},{$set:{updateAlert:true}}, { session })
+
 
         await session.commitTransaction()
         session.endSession()

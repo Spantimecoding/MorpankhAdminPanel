@@ -177,7 +177,8 @@ const invoiceSchema = new mongoose.Schema({
 })
 const auditSchema = new mongoose.Schema({
   actionDate:{
-    type:String,
+    type: Date,
+    default: Date.now,
     required:true
   },
   actionUser:{

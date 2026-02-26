@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 require("dotenv").config()
-const {product_model,dash_model} = require("../../config/database")
+const {product_model,dash_model,audit_model} = require("../../config/database")
 const confirmation = require("./add")
 const rateLimit = require("express-rate-limit");
 const loginLimiter = rateLimit({
@@ -20,6 +20,12 @@ router.get("/login",async (req,res)=>{
 })
 router.get("/logout",async (req,res)=>{
     if(req.session.admin){
+        await audit_model.insertOne({
+                actionUser:req.session.admin,
+                actionType:"Logout",
+                actionTarget:`Morpankh Admin Panel`
+        
+        })
         req.session.admin = null
         console.dir(`User Authentication State : False `)
         res.redirect("/admin/login")
@@ -28,31 +34,50 @@ router.get("/logout",async (req,res)=>{
 router.post("/login", loginLimiter, async (req, res) => {
     const { username, password } = req.body;
 
-    if (username === process.env.USERNAME_1&&password === process.env.PASSWORD_1) {
-        req.session.admin = username;
-        req.session.loginType = "admin";
-        req.session.adminDP = "https://res.cloudinary.com/dt5ceiwwh/image/upload/v1771655419/IMG-20251025-WA0013_ofr015.jpg"
-        console.log(`Authentication Success: ${username}`);
-         console.log(`Access Type: ADMIN`);
-        return res.redirect("/admin");
-    }else if(username === process.env.USERNAME_2&&password === process.env.PASSWORD_2){
-        req.session.admin = username;
-        req.session.loginType = "admin";
-        req.session.adminDP = "https://res.cloudinary.com/dt5ceiwwh/image/upload/v1771654356/facebook_1765175603364_7403683093893339562_llluhq.jpg"
-        console.log(`Authentication Success: ${username}`);
-         console.log(`Access Type: ADMIN`);
-        return res.redirect("/admin");
-    }else if(username === process.env.secondary_1_USERNAME&&password === process.env.secondary_1_PASSWORD){
-        req.session.admin = username;
-        req.session.loginType = "secondary";
-        req.session.adminDP = "https://res.cloudinary.com/dt5ceiwwh/image/upload/v1771654356/facebook_1765175603364_7403683093893339562_llluhq.jpg"
-        console.log(`Authentication Success: ${username}`);
-        console.log(`Access Type: Secondary`);
-        return res.redirect("/admin");
+    const users = [
+        {
+            username: process.env.USERNAME_1,
+            password: process.env.PASSWORD_1,
+            loginType: "admin",
+            dp: "https://res.cloudinary.com/dt5ceiwwh/image/upload/v1771655419/IMG-20251025-WA0013_ofr015.jpg"
+        },
+        {
+            username: process.env.USERNAME_2,
+            password: process.env.PASSWORD_2,
+            loginType: "admin",
+            dp: "https://res.cloudinary.com/dt5ceiwwh/image/upload/v1771654356/facebook_1765175603364_7403683093893339562_llluhq.jpg"
+        },
+        {
+            username: process.env.secondary_1_USERNAME,
+            password: process.env.secondary_1_PASSWORD,
+            loginType: "secondary",
+            dp: "https://res.cloudinary.com/dt5ceiwwh/image/upload/v1771654356/facebook_1765175603364_7403683093893339562_llluhq.jpg"
+        }
+    ];
 
+    const matchedUser = users.find(
+        user => user.username === username && user.password === password
+    );
+
+    if (!matchedUser) {
+        console.log("Authentication Failed");
+        return res.redirect("/admin/login");
     }
-    console.log("Authentication Failed");
-    return res.redirect("/admin/login");
+
+    req.session.admin = matchedUser.username;
+    req.session.loginType = matchedUser.loginType;
+    req.session.adminDP = matchedUser.dp;
+
+    console.log(`Authentication Success: ${matchedUser.username}`);
+    console.log(`Access Type: ${matchedUser.loginType.toUpperCase()}`);
+
+    await audit_model.insertOne({
+        actionUser: matchedUser.username,
+        actionType: "Login",
+        actionTarget: "Morpankh Admin Panel"
+    });
+
+    return res.redirect("/admin");
 });
 function requireAdmin(req, res, next) {
 

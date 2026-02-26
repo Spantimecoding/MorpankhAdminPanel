@@ -1224,7 +1224,7 @@ document.querySelector(".buttonDelete").addEventListener("click",()=>{
 document.querySelector(".confirm").addEventListener("click",()=>{
     if(modal_mode == "delete"){
             if(window.loginType == "admin"){
-        window.location.href = `/admin/products/delete/${dataset[0].id}`
+        window.location.href = `/admin/products/delete/${dataset[0].id}?bcd=${dataset[0].barcode}`
 
     }else{
         window.showAlert("warning","Only Admin has Deletion Access")

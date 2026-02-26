@@ -15,7 +15,8 @@ const {
     invoice_model,
     alert_model,
     dash_model,
-    product_model
+    product_model,
+    audit_model
 } = require("../../config/database")
 
 let orderStatusVar = ""
@@ -260,6 +261,12 @@ router.get(`/generate-invoice/:order_ID`, async (req, res) => {
         }
 
         await dash_model.updateMany({}, { $inc: commonIncs }, { session })
+        await audit_model.insertOne({
+                    actionUser:req.session.admin,
+                    actionType:"Order Creation",
+                    actionTarget:`${orderData.invoice_number}`
+                    
+        },{session})
 
         await session.commitTransaction()
         session.endSession()
@@ -356,8 +363,8 @@ router.get(`/generate-invoice/:order_ID`, async (req, res) => {
         return res.sendFile(filePath)
 
     } catch (postErr) {
-
         console.error("Post-Commit Error (PDF/WhatsApp):", postErr)
+        console.error("WhatsApp Error Body:", postErr.response?.data)
 
         // DB already safe — do NOT abort anything
         return res.status(500).send("Invoice Generated But Delivery Failed")

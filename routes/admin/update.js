@@ -1,6 +1,6 @@
 const express = require("express")
 const mongoose = require("mongoose")
-const {product_model,alert_model,dash_model} = require("../../config/database")
+const {product_model,alert_model,dash_model,audit_model} = require("../../config/database")
 const router = express.Router()
 
 router.post("/", async (req,res)=>{
@@ -143,6 +143,12 @@ router.post("/", async (req,res)=>{
         if(updateResult.matchedCount === 0){
             throw new Error("Product not found")
         }
+        await audit_model.insertOne({
+            actionUser:req.session.admin,
+            actionType:"Product Updation",
+            actionTarget:`${req.body.barcode}`
+
+        },{session})
 
         await dash_model.updateMany({},{
             $inc:{"adminSeshActions.productUpdated":1},
