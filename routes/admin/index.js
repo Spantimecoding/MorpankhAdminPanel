@@ -170,7 +170,7 @@ router.get("/", async (req,res)=>{
 
         // ---- Stock Counts ----
         dashData.brandStock.total = await product_model.countDocuments()
-        dashData.brandStock.inStock = await product_model.countDocuments({stock:{$gt:0},state:"active"})
+        dashData.brandStock.inStock = await product_model.countDocuments({stock:{$gt:0},state:"Active"})
         dashData.brandStock.outStock = await product_model.countDocuments({stock:0})
 
         return res.render("admin/dashboard",{
