@@ -4,7 +4,7 @@
   <style>
     .page {
         display: grid;
-        grid-template-columns: repeat(5, 1.5in);
+        grid-template-columns: repeat(4, 1.5in);
         grid-auto-rows: 0.8in;
         gap: 0.5in;
         margin: 0.1in   ;
@@ -62,9 +62,9 @@
     window.onload = function () {
     window.print();
 
-    window.onafterprint = function () {
-        window.location.href = `/admin/products/updatePrintCount?${window.location.search}`;
-    };
+    // window.onafterprint = function () {
+    //     window.location.href = `/admin/products/updatePrintCount?${window.location.search}`;
+    // };
 };
     </script>
 

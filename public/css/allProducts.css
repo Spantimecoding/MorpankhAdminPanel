@@ -110,7 +110,7 @@ input:focus{
     border-radius: 20px;
     width: 100%;
     background-color: var(--clr-bg-card);
-    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--clr-border-light);
     font-family: monospace;
     color: var(--clr-txt-body);
     font-size: 1rem;
@@ -169,7 +169,7 @@ input:focus{
 .product_image{
     width: 100%;
     max-width: 325px;
-    height: 210px;
+    height: 170px;
     object-fit: cover;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
