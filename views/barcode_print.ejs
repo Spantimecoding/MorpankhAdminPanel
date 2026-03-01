@@ -61,9 +61,9 @@
     window.onload = function () {
     window.print();
 
-    // window.onafterprint = function () {
-    //     window.location.href = `/admin/products/updatePrintCount?${window.location.search}`;
-    // };
+    window.onafterprint = function () {
+        window.location.href = `/admin/products/updatePrintCount?${window.location.search}`;
+    };
 };
     </script>
 

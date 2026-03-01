@@ -52,10 +52,12 @@ function getDateRange(type) {
             return { $gte: start, $lt: end };
         }
 let arcSearch = ""
+let resetPrint = false
 function buildQuery(search) {
     if (!search || search === "all") {
         return {};
     }
+
 
     const split = search.split("-");
     const dbQuery = {};
@@ -115,6 +117,14 @@ router.get("/allProducts", async (req, res) => {
             .skip(skip)
             .limit(limit)
             .lean(); // cleaner output
+        // if (resetPrint && products.length > 0) {
+        //     const ids = products.map(p => p._id);
+
+        //     await product_model.updateMany(
+        //         { _id: { $in: ids } },
+        //         { $set: { barcodePrintCount: 0 } }
+        //     );
+        // }
 
         return res.render("admin/products/allProducts", {
             display: "Products",
@@ -160,7 +170,7 @@ router.get("/barcodePrint",async(req,res)=>{
 router.get("/updatePrintCount",async (req,res)=>{
     const search = req.query.search || "";
         let page = parseInt(req.query.page) || 1;
-        const limit = 20;
+        const limit = 40;
 
         if (page < 1) page = 1;
 
@@ -178,7 +188,7 @@ router.get("/updatePrintCount",async (req,res)=>{
         { _id: { $in: idArray } },
         { $inc: { barcodePrintCount: 1 } }
         );
-        return res.redirect("/admin/products/allProducts?page=1&&search=all")
+        return res.redirect("/admin/products/allProducts?page=1&search=all")
 
 
 
