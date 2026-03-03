@@ -38,6 +38,11 @@ next.addEventListener("click",()=>{
   let page = parseInt(params.get("page")) || 1;
   const search = params.get("search") || "";
   page++; // move to next page
+    const value = searchInput.value.trim();
+  if (!value) return;
+  const url = `/admin/products/allProducts?search=${encodeURIComponent(value)}&page=${page}`;
+  // store LAST orders URL
+  localStorage.setItem("products_last_url", url);
   document.querySelector(".page-num").textContent = page
   window.location.href = `/admin/products/allProducts?page=${page}&search=${encodeURIComponent(search)}`;
 
@@ -54,6 +59,11 @@ prev.addEventListener("click",()=>{
 
   }else{
     page--
+      const value = searchInput.value.trim();
+  if (!value) return;
+  const url = `/admin/products/allProducts?search=${encodeURIComponent(value)}&page=${page}`;
+  // store LAST orders URL
+  localStorage.setItem("products_last_url", url);
       document.querySelector(".page-num").textContent = page
   } // move to next page
   window.location.href = `/admin/products/allProducts?page=${page}&search=${search}`;

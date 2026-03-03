@@ -53,7 +53,7 @@
                                                 <div class="product-text-info-item" id="item-price" style="font-size: var(--space-xxl); background-color: white; color:var(--clr-txt-head); margin-top: -10px;">₹ <%=x.price%></div>
                                                 <div class="info-row">
                                                         <%if(x.stock != 0){%>
-                                                                <div class="product-text-info-item" style="color: var(--pill-green-text);;background-color: var(--pill-green-bg); font-size: var(--space-ml);padding: var(--space-xs) var(--space-s);" id = "item-stock"></i>In Stock</div>
+                                                                <div class="product-text-info-item" style="color: var(--pill-green-text);;background-color: var(--pill-green-bg); font-size: var(--space-ml);padding: var(--space-xs) var(--space-s);" id = "item-stock"></i>In Stock <span class="stock-num" style="background-color: var(--clr-bg-website); padding: var(--space-xs);border-radius: 20px; height: fit-content;font-size: var(--space-s); position: relative; bottom: 3px;"><%=x.stock%></span></div>
                                                         <%}else{%>
                                                                 <div class="product-text-info-item" style=" color: var(--pill-red-text);background-color:var(--pill-red-bg);font-size: var(--space-ml);padding: var(--space-xs) var(--space-s);" id = "item-stock"></i>Out Of Stock</div>
 
@@ -65,6 +65,7 @@
                                                                         <i data-lucide="printer-check" class="icon" style="stroke-width: 1.2;width: 25px; height: 25px; border: 1px solid var(--clr-border-light); border-radius: 5px; padding: 3px; background-color: var(--pill-green-bg); color: var(--pill-green-text)"></i>
 
                                                                         <%}%>
+                                                        <div class="product-text-info-item" style=" color: var(--pill-blue-text);background-color:var(--pill-blue-bg);font-size: var(--space-m);padding: var(--space-xs) var(--space-s);" id = "item-stock"></i><%=x.barcode%></div>
                                                 </div>
                                         </div>
                                 </a>

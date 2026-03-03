@@ -159,7 +159,10 @@ router.get("/barcodePrint",async(req,res)=>{
             .limit(limit)
             .lean(); // cleaner output
 
-        return res.render("barcode_print", {products});
+        return res.render("barcode_print", {
+            products,
+            queryString: req.originalUrl.split('?')[1] || ''
+        });
 
     } catch (err) {
         console.error("Barcode Print Page Error:", err);
@@ -221,6 +224,7 @@ router.get("/updatePrintCount",async (req,res)=>{
     const search = req.query.search || "";
         let page = parseInt(req.query.page) || 1;
         const limit = 40;
+        console.log(`page - ${page} , search - ${search}`)
 
         if (page < 1) page = 1;
 
@@ -238,7 +242,7 @@ router.get("/updatePrintCount",async (req,res)=>{
         { _id: { $in: idArray } },
         { $inc: { barcodePrintCount: 1 } }
         );
-        return res.redirect("/admin/products/allProducts?page=1&search=all")
+        return res.redirect(`/admin/products/allProducts?page=${page}&search=${search}`)
 
 
 
