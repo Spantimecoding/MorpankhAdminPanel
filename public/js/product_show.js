@@ -1198,7 +1198,7 @@ form.innerHTML +=
 `
 <div class = "buttonGroup">
 <a class ="barcode-button" href = "/admin/products/regenerate/${dataset[0].barcode}" id = "barcode"><i data-lucide="scan-barcode" class = "save_icon"></i>Barcode</a>
-<button class = "change-button"><i data-lucide="save" class = "save_icon"></i>Save</button> 
+<button class = "change-button" id = "save"><i data-lucide="save" class = "save_icon"></i>Save</button> 
 <a  class="buttonDelete" id="delete"><i data-lucide="x" class = "save_icon" style = "margin-right:0;"></i> Delete</a>
 </div>
 `
@@ -1269,6 +1269,24 @@ document.querySelector(".back").addEventListener("click",()=>{
     const state = document.querySelector("#state")
     state.value = prev_state
 
+
+})
+let priceChange = false
+document.querySelector("#price").addEventListener("change",()=>{
+    priceChange = true
+    const dataform = document.querySelector(".dataForm")
+    dataform.action = "/admin/products/update?priceChange=true"
+
+})
+document.querySelector("#save").addEventListener("click",()=>{
+    if(priceChange == true){
+    const dataform = document.querySelector(".dataForm")
+    dataform.action = "/admin/products/update?priceChange=true"
+    }else{
+        const dataform = document.querySelector(".dataForm")
+    dataform.action = "/admin/products/update?priceChange=false"
+
+    }
 
 })
 
