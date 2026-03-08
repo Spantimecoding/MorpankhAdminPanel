@@ -81,6 +81,23 @@ add_box.addEventListener("input", () => {
             add_box.value = ""; // clear input after scan
 
             /* ---------- Create Bag Item ---------- */
+            const existingBagItem = bag_box.querySelector(
+            `.bag-item[data-barcode="${product.barcode}"]`
+            );
+
+            if (existingBagItem) {
+
+            const qtySelect = existingBagItem.querySelector("#quantity");
+            let currentQty = Number(qtySelect.value);
+
+            if (currentQty < product.stock) {
+                qtySelect.value = currentQty + 1;
+            }
+
+            add_box.value = "";
+            recalculateAndRender();
+            return;   // stop creating a new item
+            }
 
             const item = document.createElement("div");
             item.className = "bag-item";
@@ -89,6 +106,7 @@ add_box.addEventListener("input", () => {
             item.dataset.barcode = product.barcode;
             item.dataset.price = product.mrp;
             item.dataset.category_generated = false;
+
 
             item.innerHTML = `
                 <div class="pic-and-item-info">
@@ -610,10 +628,13 @@ function gstCalc(){
 
         // ----- NORMAL SLAB LOGIC -----
         else{
-            if(x.discounted_line_total <= 2600){
+
+            const unit_price = x.discounted_line_total / x.quantity;
+
+            if(unit_price <= 2600){
                 rate = 5;
             }
-            else if(x.discounted_line_total >= 3000){
+            else if(unit_price >= 3000){
                 rate = 18;
             }
 

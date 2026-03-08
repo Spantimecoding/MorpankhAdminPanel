@@ -790,7 +790,7 @@ if(dataset[0].category == "sarees"){
         <div class = "input-row">
             <div class="form-item">
                         <label for="blouse-type">Blouse Type</label>
-                        <input id = "blouse-type" type = "text" name = "blouseType" value = ${dataset[0].attributes.blouseType} readonly>
+                        <input id = "blouse-type" type = "text" name = "blouseType" value = "${dataset[0].attributes.blouseType}" readonly>
                     </div>
                 <div class="form-item">
                         <label for="blouse-lining">Lining of Blouse</label>
