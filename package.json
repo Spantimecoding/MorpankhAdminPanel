@@ -1,0 +1,35 @@
+{
+  "name": "morpankh-website",
+  "version": "1.0.0",
+  "description": "Complete Website Architecture for Morpankh Dezine",
+  "license": "ISC",
+  "author": "Spandan Sen",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npx puppeteer browsers install chrome --path=./.local-chromium"
+  },
+  "bin": {
+    "map": "./index.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.99.2",
+    "aws-sdk": "^2.1693.0",
+    "axios": "^1.13.2",
+    "bwip-js": "^4.8.0",
+    "dotenv": "^17.3.1",
+    "ejs": "^3.1.10",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "express-session": "^1.18.2",
+    "mongoose": "^9.0.2",
+    "nanoid": "^5.1.6",
+    "number-to-words": "^1.2.4",
+    "puppeteer": "^24.36.1",
+    "sharp": "^0.34.5",
+    "twilio": "^5.12.1",
+    "uuid": "^13.0.0"
+  }
+}

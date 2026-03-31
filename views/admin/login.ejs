@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../partials/links") %>
+    <meta charset="UTF-8">
+    <link href="/css/login.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <img src="https://ggnwejkyhuxiqdyjzlnb.supabase.co/storage/v1/object/public/products/site-images/IMG20251124174631%20(1)%20(2).jpg">
+    <div class="login-box">
+        <div class="wrapper">
+                  <div class="head-1">Morpankh Portal</div>
+                  <div class="head-2">Please login to access Admin Portal</div>
+                  <form action="/admin/login" method="post">
+                    <div class="item">
+                        <label for="username">Username</label>
+                        <input type="text" class="inpt" id="username" name="username">
+                    </div>
+                    <div class="item">
+                        <label for="password">Password*</label>
+                        <input type="password" class="inpt" id="password" name="password">
+                    </div>
+                    <button class="login-bt"><i data-lucide="log-in"></i>Login</button>
+                  </form>
+
+        </div>
+  
+    </div>
+    <script src="/js/login.js"></script>
+</body>
+</html>

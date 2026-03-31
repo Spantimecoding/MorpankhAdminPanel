@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .page {
+        display: grid;
+        grid-template-columns: repeat(4, 1.5in);
+        grid-auto-rows: 0.8in;
+        gap: 0.1in;
+        margin: 0.1in   ;
+      }
+       .barcode {
+          width: 3.5cm;
+            height: 0.8in;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            position: relative;
+            border: 1px solid black;
+            padding: 0.3mm 2mm;
+            justify-content: center;
+      }
+      
+      body {
+        margin: 0;
+      }
+
+
+
+      .barcode img {
+        width: 100%;
+      }
+    @media print {
+
+      @page {
+        size: A4;
+        margin: 0.3in 0.15in 0.3in 0.15in; 
+      }
+      body {
+    margin: 0;
+  }
+
+  .page {
+    display: grid;
+    grid-template-columns: repeat(4, 1.8in);
+    grid-auto-rows: 0.8in;
+    gap: 0.1in;
+
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .barcode {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+    }
+
+  </style>
+</head>
+<body>
+
+<%
+  const perPage = 40;
+  for (let i = 0; i < products.length; i += perPage) {
+%>
+<%let prodNum = 1%>
+  <div class="page">
+    <% products.slice(i, i + perPage).reverse().forEach(product => { %>
+      <%for(let i=0;i<product.stock;i++){%>
+          <div class="barcode">
+              <img src="/admin/products/regenerate/<%= product.barcode%>">
+              <div style="font-family: monospace; font-size: 10px;margin-left: 3px; position:absolute; right: 0; bottom: 0;"><%=prodNum%></div>
+          </div>
+        <%}%>
+        <%prodNum++%>
+    <% }) %>
+  </div>
+
+<% } %>
+<script>
+const queryString = "<%= queryString %>";
+
+window.onload = function () {
+    window.print();
+};
+
+window.onafterprint = function () {
+    window.location.href = `/admin/products/updatePrintCount?${queryString}`;
+};
+</script>
+
+
+
+</body>
+</html>

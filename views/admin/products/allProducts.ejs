@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <link href="/css/allProducts.css" rel="stylesheet">
+        <%- include("../../partials/links") %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+</head>
+<body>
+        <script>
+        localStorage.setItem("display","<%=display%>")
+        console.log(localStorage.getItem("display"))
+        </script>
+        <%- include("../../partials/adminNav") %>
+        <div class="products-layout">
+                <div class="search-and-add">
+                        <div class="search-box">
+                                <label for="search" id="search"><i data-lucide="search" class="search-icon"></i></label>
+                                <input type="text" id="searchBox" placeholder="Enter Search Query">
+                        </div>
+                        <div class="pg-grp"><span class="pg-grp-bt" id="prev"><i data-lucide="step-back" class="icon" style="position: relative; top: 5px; color: var(--clr-txt-body);"></i></span><span></span><span class="page-num">1</span><span class="pg-grp-bt" id="next"><i data-lucide="step-forward" class="icon"style="position: relative; top: 5px; color: var(--clr-txt-body);left:5px"></i></span></div>
+                        <div class="item-count"></div>
+                        <button class="compact"id="barcode-print"><i data-lucide="printer-check" class="add-icon" style="margin: auto;"></i></button>
+                        <button class="compact"id="barcode-reset" style="background-color: rgba(165, 3, 3, 0.82);"><i data-lucide="printer-x" class="add-icon" style="margin: auto;"></i></button>
+                        <button class="compact"id="barcode-print"><i data-lucide="archive" class="add-icon" style="margin: auto;"></i></button>
+                        <button class="compact"><i data-lucide="grid-3x3" class="add-icon" style="margin: auto;"></i></button>
+
+
+                        <button class="compact"><a href="/admin/products/add" class="add-anchor"><i data-lucide="file-plus-corner" class="add-icon" style="position: relative; left: 4px;"></i></a></button>
+                </div>
+                <div class="confirm-box">
+                    <div class="conf-head"><i data-lucide="circle-alert" class="icon" style="width: 20px; height: 20px;"></i>Print Count Reset</div>
+                    <div class="conf-txt">This action will reset Print Count of all products in this page</div>
+                    <div class="button-group">
+                    <button class="confirm">Confirm</button>
+                    <button class="back">Close</button>
+                    </div>
+
+                </div>
+                  <%if(data.length == 0){%>
+                <div class="empty-msg">
+                        <p><i data-lucide="circle-x" class="empty-icon"></i>No Existing Products Found</p>
+                        </div>
+                        <%}%>
+                        <%let prodNum = 1%>
+                <div class="product-grid">
+                         <% for(let i = data.length - 1; i >= 0; i--){
+                                const x = data[i]%>
+                                <a href="/admin/products/edit/<%=x.id%>" class="product-grid-item">
+                                        <img src="<%=x.images[0]%>" class="product_image">
+                                        <div class="product-text-info">
+                                                <div class="product-text-info-item" id="item-name" style="background-color: white;"><span class="txt-head"><%=x.name%></span></div>
+                                                <div class="product-text-info-item" id="item-price" style="font-size: var(--space-xxl); background-color: white; color:var(--clr-txt-head); margin-top: -10px;">₹ <%=x.mrp%></div>
+                                                <div class="info-row">
+                                                        <%if(x.stock != 0){%>
+                                                                <div class="product-text-info-item" style="color: var(--pill-green-text);;background-color: var(--pill-green-bg); font-size: var(--space-ml);padding: var(--space-xs) var(--space-s);" id = "item-stock"></i>In Stock <span class="stock-num" style="background-color: var(--clr-bg-website); padding: var(--space-xs);border-radius: 20px; height: fit-content;font-size: var(--space-s); position: relative; bottom: 3px;"><%=x.stock%></span></div>
+                                                        <%}else{%>
+                                                                <div class="product-text-info-item" style=" color: var(--pill-red-text);background-color:var(--pill-red-bg);font-size: var(--space-ml);padding: var(--space-xs) var(--space-s);" id = "item-stock"></i>Out Of Stock</div>
+
+                                                                <%}%>
+
+                                                        <%if(x.barcodePrintCount == 0||x.stock == 0){%>
+                                                                <i data-lucide="printer-x" class="icon" style="stroke-width: 1.2;width: 25px; height: 25px; border: 1px solid var(--clr-border-light); border-radius: 5px; padding: 3px; background-color: var(--pill-red-bg); color: var(--pill-red-text)"></i>
+                                                                <%}else{%>
+                                                                        <i data-lucide="printer-check" class="icon" style="stroke-width: 1.2;width: 25px; height: 25px; border: 1px solid var(--clr-border-light); border-radius: 5px; padding: 3px; background-color: var(--pill-green-bg); color: var(--pill-green-text)"></i>
+
+                                                                        <%}%>
+                                                        <div class="product-text-info-item" style=" font-family: monospace;color: var(--pill-blue-text);background-color:var(--pill-blue-bg);font-size: var(--space-sm);padding: var(--space-xs) var(--space-s);" id = "item-stock"></i><%=x.barcode%></div>
+                                                        
+                                                </div>
+                                                <div style="font-family: var(--font-head);position: absolute; bottom: -12px; right: -30px; font-size: var(--space-s); background-color: var(--clr-bg-website);box-shadow: var(--shadow-sm-inset);border: 1px solid var(--clr-border-light); color: var(--clr-txt-body); padding: 3px; width: 15px; text-align: center; border-radius: 10px; overflow: hidden;"><%=prodNum%></div>
+                                                <%prodNum++%> 
+                                        </div>
+                                </a>
+                         <% } %>
+                        
+                </div>
+                
+
+        </div>
+       
+
+    <script>
+        console.log("hello")
+        window.dataset = <%- JSON.stringify(data) %>;
+        window.alertMessage = <%- JSON.stringify(alertMessage || null) %>;
+    </script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="/js/allProducts.js"></script>
+</body>
+</html>

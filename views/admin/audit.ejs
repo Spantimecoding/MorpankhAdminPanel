@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="/css/audit.css" rel="stylesheet">
+    <%- include("../partials/links") %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Log</title>
+</head>
+<body>
+    <script>
+                localStorage.setItem("display","<%=display%>")
+                console.log(localStorage.getItem("display"))
+    </script>
+    <script>
+            function roundTo2(num) {
+            return Math.round((num + Number.EPSILON) * 100) / 100;
+            }
+    </script>
+    <%- include("../partials/adminNav") %>
+    <div class="audit-layout">
+        <div class="table-wrap">
+             <table class="audit-table">
+                <thead>
+                    <th class="item-head">Date</th>
+                    <th class="item-head">Time</th>
+                    <th class="item-head">User</th>
+                    <th class="item-head">Action</th>
+                    <th class="item-head">Target</th>
+                </thead>
+                <tbody>
+                    <% for(let i = auditData.length - 1; i >= 0; i--) { %>
+                        <% const x = auditData[i] %>
+                        <tr>
+                            <td class="item">
+                                <%= x.actionDate.toISOString().split("T")[0] %>
+                            </td>
+                            <td class="item">
+                                <%= new Date(x.actionDate).toLocaleTimeString("en-IN",{
+                                    timeZone:"Asia/Kolkata"
+                                }) %>
+                            </td>
+                            <td class="item"><%=x.actionUser%></td>
+                            <td class="item"><%=x.actionType%></td>
+                            <td class="item" style="font-size: var(--space-m);"><%=x.actionTarget%></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+
+            </table>
+
+        </div>
+           
+            
+    </div>
+    <script src="/js/audit.js"></script>
+</body>
+</html>

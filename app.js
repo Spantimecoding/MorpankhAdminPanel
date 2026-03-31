@@ -1,0 +1,38 @@
+//express connection
+const express = require("express")
+const session = require("express-session");
+const app = express()
+require("dotenv").config()
+
+
+
+//Mongoose Connection
+const mongoose = require("./config/database")
+
+//express middleware
+app.set("view engine","ejs")
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+const isProduction = process.env.NODE_ENV === "production"
+app.set("trust proxy", 1);
+app.use(session({
+    name: "sid",
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    rolling:true,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        sameSite:"lax",
+        secure: isProduction,
+        maxAge:60 * 60*1000
+    }
+}));
+app.get("/", (req, res) => {
+  res.redirect("/admin");
+})
+app.use("/admin",require("./routes/admin/index"))
+app.use(express.static("public"))
+
+//Exports - 
+module.exports = app
