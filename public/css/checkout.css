@@ -56,7 +56,7 @@ input:focus{
     box-sizing: var(--shadow-md);
 }
 label{
-    margin-right: var(--space-xs);
+    margin-right: var(--space-xs)
 }
 .bag-display{
     padding: var(--space-l);
